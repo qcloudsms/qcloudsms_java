@@ -100,7 +100,7 @@ public class SmsSingleSender {
         wr.write(data.toString());
         wr.flush();
 
-        System.out.println(data.toString());
+        //System.out.println(data.toString());
 
         // 显示 POST 请求返回的内容
         StringBuilder sb = new StringBuilder();
