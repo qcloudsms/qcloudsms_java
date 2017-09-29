@@ -88,7 +88,7 @@ phoneNumbers.add("13101116651");
 phoneNumbers.add("13101116652");
 phoneNumbers.add("13101116653");
 SmsMultiSenderResult multiSenderResult = multiSender.send(0, "86", phoneNumbers, 
-	"测试短信，普通群发，深圳，小明，上学。", "", "");
+	"【腾讯】测试短信，普通群发，深圳，小明，上学。", "", "");
 System.out.println(multiSenderResult);
 ```
 - **指定模板ID群发**
