@@ -24,7 +24,7 @@ qcloudsms可以采用多种方式进行安装，我们提供以下三种方法�
 <dependency>
   	<groupId>com.github.qcloudsms</groupId>
   	<artifactId>sms</artifactId>
-  	<version>0.0.1</version>
+  	<version>0.9.0</version>
 </dependency>
 ```
 ### sbt
