@@ -45,7 +45,7 @@ libraryDependencies += "com.github.qcloudsms" % "sms" % "0.9.1"
 
 ## 用法
 
->若您对接口存在疑问，可以查阅[API文档](http://static.javadoc.io/com.github.qcloudsms/sms/0.9.1/index.html?com/github/qcloudsms/package-summary.html)
+>若您对接口存在疑问，可以查阅[API文档](http://static.javadoc.io/com.github.qcloudsms/sms/0.0.1/index.html?com/github/qcloudsms/package-summary.html)
 
 首先导入库
 ```
