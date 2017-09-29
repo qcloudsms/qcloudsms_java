@@ -112,7 +112,7 @@ import com.github.qcloudsms.*;
 - **发送语音验证码**
 ```java
     //语音验证码发送
-      SmsVoiceVerifyCodeSender smsVoiceVerifyCodeSender = new SmsVoiceVerifyCodeSender(appid,appkey);
+      SmsVoiceVerifyCodeSender smsVoiceVerifyCodeSender = new SmsVoiceVerifyCodeSender(appid, "replace with key");
       SmsVoiceVerifyCodeSenderResult smsVoiceVerifyCodeSenderResult = smsVoiceVerifyCodeSender.send("86",
       "1310555552", "123",2,"");
       System.out.println(smsVoiceVerifyCodeSenderResult);
@@ -121,7 +121,7 @@ import com.github.qcloudsms.*;
 
 - **发送语音通知**
 ```
-     SmsVoicePromptSender smsVoicePromtSender = new SmsVoicePromptSender(appid, appkey);
+     SmsVoicePromptSender smsVoicePromtSender = new SmsVoicePromptSender(appid, "replace with key");
      SmsVoicePromptSenderResult smsSingleVoiceSenderResult = smsVoicePromtSender.send("86", "13758028086", 2,2,
      "欢迎使用XXX，本次活动xxx", "");
      System.out.println(smsSingleVoiceSenderResult);
@@ -129,7 +129,7 @@ import com.github.qcloudsms.*;
 
 - **拉取短信回执以及回复**
 ```
-    SmsStatusPuller pullstatus = new SmsStatusPuller(appid, appkey);
+    SmsStatusPuller pullstatus = new SmsStatusPuller(appid, "replace with key");
     SmsStatusPullCallbackResult callbackResult = pullstatus.pullCallback(10);
     System.out.println(callbackResult);
     SmsStatusPullReplyResult replyResult = pullstatus.pullReply(10);
