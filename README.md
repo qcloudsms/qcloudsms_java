@@ -34,12 +34,14 @@ libraryDependencies += "com.github.qcloudsms" % "sms" % "0.0.1"
 ```
 
 ### 其他
-方法1 请将[源代码	](https://github.com/qcloudsms/qcloudsms_java/tree/master/src)直接引入到项目工程中。
-方法2 将[JAR包]( http://maven.oa.com/nexus/content/groups/public/com/github/qcloudsms/sms/0.0.1/sms-0.0.1.jar)直接引入到您的工程中。
-`Note`:
+- 方法1 
+ 将[源代码	](https://github.com/qcloudsms/qcloudsms_java/tree/master/src)直接引入到项目工程中。
+- 方法2 
+ 将[JAR包]( http://maven.oa.com/nexus/content/groups/public/com/github/qcloudsms/sms/0.0.1/sms-0.0.1.jar)直接引入到您的工程中。
+>`Note`:
 由于qcloudsms中需要使用以下四个依赖项目
 [org.json](http://central.maven.org/maven2/org/json/json/20170516/json-20170516.jar) , [httpclient](http://central.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar), [httpcore](http://central.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.7/httpcore-4.4.7.jar), [httpmine](http://central.maven.org/maven2/org/apache/httpcomponents/httpmime/4.5.3/httpmime-4.5.3.jar)
-`采用方法1，2两种方法都需要将以上四个jar包导入工程`。
+`采用方法1，2都需要将以上四个jar包导入工程`。
 
 ## 用法
 
@@ -53,25 +55,25 @@ import com.github.qcloudsms.*;
 
 - **单发短信**
 ```java
-	try {
-          SmsSingleSender sender = new   SmsSingleSender(appid, "replace with key");
-	  SmsSingleSenderResult result = sender.send(0, "86", "18326693192", "【腾讯】验证码测试1234", "", "123");
-	  System.out.print(result);
-	} catch (Exception e) {
-	   e.printStackTrace();
-	}
+ try {
+        SmsSingleSender sender = new   SmsSingleSender(appid, "replace with key");
+	SmsSingleSenderResult result = sender.send(0, "86", "18326693192", "【腾讯】验证码测试1234", "", "123");
+	System.out.print(result);
+ } catch (Exception e) {
+	e.printStackTrace();
+ }
 ```
 > `Note`:如需发送国际短信，同样可以使用此接口，只需将国家码"86"改写成对应国家码号。
 - **指定模板ID单发短信**
 ```java
 	  //假设短信模板 id 为 123，模板内容为：测试短信，{1}，{2}，{3}，上学。
-	  SmsSingleSender sender = new SmsSingleSender(1104620500,"5f03a35d00ee52a224d7ab048186a2c4");
-	  ArrayList<String> params = new ArrayList<String>();
-	  params.add("指定模板单发");
-	  params.add("深圳");
-	  params.add("小明");
-	  SmsSingleSenderResult   result = sender.sendWithParam("86", "18326693192", 123, params, "", "", "");
-	  System.out.println(result);
+	SmsSingleSender sender = new SmsSingleSender(1104620500,"5f03a35d00ee52a224d7ab048186a2c4");
+	ArrayList<String> params = new ArrayList<String>();
+	params.add("指定模板单发");
+	params.add("深圳");
+	params.add("小明");
+	SmsSingleSenderResult   result = sender.sendWithParam("86", "18326693192", 123, params, "", "", "");
+	System.out.println(result);
 ```
 > `Note:`无论单发短信还是指定模板ID单发短信都需要从控制台中申请模板并且模板已经审核通过，才可能下发成功，否则返回失败。
 
@@ -85,7 +87,8 @@ import com.github.qcloudsms.*;
 	phoneNumbers.add("13101116651");
 	phoneNumbers.add("13101116652");
 	phoneNumbers.add("13101116653");
-	SmsMultiSenderResult multiSenderResult = multiSender.send(0, "86", phoneNumbers, "测试短信，普通群发，深圳，小明，上学。", "", "");
+	SmsMultiSenderResult multiSenderResult = multiSender.send(0, "86", phoneNumbers, 
+	"测试短信，普通群发，深圳，小明，上学。", "", "");
 	System.out.println(multiSenderResult);
 ```
 - **指定模板ID群发**
@@ -110,7 +113,8 @@ import com.github.qcloudsms.*;
 ```java
     //语音验证码发送
       SmsVoiceVerifyCodeSender smsVoiceVerifyCodeSender = new SmsVoiceVerifyCodeSender(appid,appkey);
-      SmsVoiceVerifyCodeSenderResult smsVoiceVerifyCodeSenderResult = smsVoiceVerifyCodeSender.send("86","1310555552", "123",2,"");
+      SmsVoiceVerifyCodeSenderResult smsVoiceVerifyCodeSenderResult = smsVoiceVerifyCodeSender.send("86",
+      "1310555552", "123",2,"");
       System.out.println(smsVoiceVerifyCodeSenderResult);
 ```
 >`Note`:语音验证码发送只需提供验证码数字，例如在msg=“123”,您收到的语音通知为“您的语音验证码是1 2 3”，如需自定义内容，可以使用语音通知
