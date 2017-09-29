@@ -1,30 +1,25 @@
-
-
-[TOC]
 # Overview
-@(ÌÚÑ¶ÔÆ¶ÌĞÅ)[java|maven|sms]
-
->Ä¿Ç°ÌÚÑ¶ÔÆ¶ÌĞÅÎª¿Í»§Ìá¹©¹úÄÚ¶ÌĞÅ£¬¹ú¼Ê¶ÌĞÅ£¬ÓïÒôÍ¨ÖªÈı´ó·şÎñ¡£
->¹úÄÚ¶ÌĞÅÌá¹©µ¥·¢£¬Èº·¢£¬´øÄ£°åIDµ¥·¢£¬´øÄ£°åIDÈº·¢ÒÔ¼°¶ÌĞÅ»ØÖ´Óë»Ø¸´À­È¡¡£
->¹ú¼Ê¶ÌĞÅ¿ÉÒÔÖ±½ÓÊ¹ÓÃ¹úÄÚµ¥·¢¶ÌĞÅÄ£°å£¬Ö»ĞèÌæ»»ÏàÓ¦µÄ¹ú¼ÒÂëÓëÊÖ»úºÅÂë¡£
->ÓïÒôÍ¨ÖªÄ¿Ç°Ö§³ÖÓïÒôÑéÖ¤ÂëÒÔ¼°ÓïÒôÍ¨Öª¹¦ÄÜ¡£
+>ç›®å‰è…¾è®¯äº‘çŸ­ä¿¡ä¸ºå®¢æˆ·æä¾›å›½å†…çŸ­ä¿¡ï¼Œå›½é™…çŸ­ä¿¡ï¼Œè¯­éŸ³é€šçŸ¥ä¸‰å¤§æœåŠ¡ã€‚
+>å›½å†…çŸ­ä¿¡æä¾›å•å‘ï¼Œç¾¤å‘ï¼Œå¸¦æ¨¡æ¿IDå•å‘ï¼Œå¸¦æ¨¡æ¿IDç¾¤å‘ä»¥åŠçŸ­ä¿¡å›æ‰§ä¸å›å¤æ‹‰å–ã€‚
+>å›½é™…çŸ­ä¿¡å¯ä»¥ç›´æ¥ä½¿ç”¨å›½å†…å•å‘çŸ­ä¿¡æ¨¡æ¿ï¼Œåªéœ€æ›¿æ¢ç›¸åº”çš„å›½å®¶ç ä¸æ‰‹æœºå·ç ã€‚
+>è¯­éŸ³é€šçŸ¥ç›®å‰æ”¯æŒè¯­éŸ³éªŒè¯ç ä»¥åŠè¯­éŸ³é€šçŸ¥åŠŸèƒ½ã€‚
 # Getting Start
 
-##×¼±¸
-- [ ] ÉêÇëAPPIDÒÔ¼°APPKey
->ÔÚ¿ªÊ¼±¾½Ì³ÌÖ®Ç°£¬ÄúĞèÒªÏÈ»ñÈ¡APPIDºÍAPPkey,ÈçÄúÉĞÎ´ÉêÇë£¬Çëµ½https://console.qcloud.com/sms/smslistÖĞÌí¼ÓÓ¦ÓÃ¡£Ó¦ÓÃÌí¼Ó³É¹¦ºóÄú½«»ñµÃAPPIDÒÔ¼°APPKey,×¢ÒâAPPIDÊÇÒÔ14xxxxx¿ªÍ·¡£
+## å‡†å¤‡
+- [ ] ç”³è¯·APPIDä»¥åŠAPPKey
+>åœ¨å¼€å§‹æœ¬æ•™ç¨‹ä¹‹å‰ï¼Œæ‚¨éœ€è¦å…ˆè·å–APPIDå’ŒAPPkey,å¦‚æ‚¨å°šæœªç”³è¯·ï¼Œè¯·åˆ°https://console.qcloud.com/sms/smslist ä¸­æ·»åŠ åº”ç”¨ã€‚åº”ç”¨æ·»åŠ æˆåŠŸåæ‚¨å°†è·å¾—APPIDä»¥åŠAPPKey,æ³¨æ„APPIDæ˜¯ä»¥14xxxxxå¼€å¤´ã€‚
 
-- [ ] ÉêÇëÇ©Ãû
- > ÏÂ·¢¶ÌĞÅ±ØĞëĞ¯´øÇ©Ãû£¬ÔÚÏàÓ¦·şÎñÄ£¿é *¶ÌĞÅÄÚÈİÅäÖÃ*  ÖĞ½øĞĞÉêÇë¡£
+- [ ] ç”³è¯·ç­¾å
+ > ä¸‹å‘çŸ­ä¿¡å¿…é¡»æºå¸¦ç­¾åï¼Œåœ¨ç›¸åº”æœåŠ¡æ¨¡å— *çŸ­ä¿¡å†…å®¹é…ç½®*  ä¸­è¿›è¡Œç”³è¯·ã€‚
 
-- [ ] ÉêÇëÄ£°å
- > ÏÂ·¢¶ÌĞÅÄÚÈİ±ØĞë¾­¹ıÉóºË£¬ÔÚÏàÓ¦·şÎñ *¶ÌĞÅÄÚÈİÅäÖÃ* ÖĞ½øĞĞÉêÇë¡£
+- [ ] ç”³è¯·æ¨¡æ¿
+ > ä¸‹å‘çŸ­ä¿¡å†…å®¹å¿…é¡»ç»è¿‡å®¡æ ¸ï¼Œåœ¨ç›¸åº”æœåŠ¡ *çŸ­ä¿¡å†…å®¹é…ç½®* ä¸­è¿›è¡Œç”³è¯·ã€‚
 
-Íê³ÉÒÔÉÏÈıÏî±ã¿É¿ªÊ¼´úÂë¿ª·¢¡£
-##°²×°
-qcloudsms¿ÉÒÔ²ÉÓÃ¶àÖÖ·½Ê½½øĞĞ°²×°£¬ÎÒÃÇÌá¹©ÒÔÏÂÈıÕÅ·½·¨¹©ÓÃ»§Ê¹ÓÃ
-###maven
- ÒªÊ¹ÓÃqcloudsms¹¦ÄÜ£¬ĞèÒªÔÚpom.xmlÖĞÌí¼ÓÈçÏÂÒÀÀµ
+å®Œæˆä»¥ä¸Šä¸‰é¡¹ä¾¿å¯å¼€å§‹ä»£ç å¼€å‘ã€‚
+## å®‰è£…
+qcloudsmså¯ä»¥é‡‡ç”¨å¤šç§æ–¹å¼è¿›è¡Œå®‰è£…ï¼Œæˆ‘ä»¬æä¾›ä»¥ä¸‹ä¸‰å¼ æ–¹æ³•ä¾›ç”¨æˆ·ä½¿ç”¨
+### maven
+ è¦ä½¿ç”¨qcloudsmsåŠŸèƒ½ï¼Œéœ€è¦åœ¨pom.xmlä¸­æ·»åŠ å¦‚ä¸‹ä¾èµ–
 ```
 <dependency>
   	<groupId>com.github.qcloudsms</groupId>
@@ -32,110 +27,113 @@ qcloudsms¿ÉÒÔ²ÉÓÃ¶àÖÖ·½Ê½½øĞĞ°²×°£¬ÎÒÃÇÌá¹©ÒÔÏÂÈıÕÅ·½·¨¹©ÓÃ»§Ê¹ÓÃ
   	<version>0.0.1</version>
 </dependency>
 ```
-###sbt
+### sbt
+
 ```
 libraryDependencies += "com.github.qcloudsms" % "sms" % "0.0.1"
 ```
-###ÆäËû
-·½·¨1 Çë½«[Ô´´úÂë	](https://github.com/qcloudsms/qcloudsms_java/tree/master/src)Ö±½ÓÒıÈëµ½ÏîÄ¿¹¤³ÌÖĞ¡£
-·½·¨2 ½«[JAR°ü]( http://maven.oa.com/nexus/content/groups/public/com/github/qcloudsms/sms/0.0.1/sms-0.0.1.jar)Ö±½ÓÒıÈëµ½ÄúµÄ¹¤³ÌÖĞ¡£
+
+### å…¶ä»–
+æ–¹æ³•1 è¯·å°†[æºä»£ç 	](https://github.com/qcloudsms/qcloudsms_java/tree/master/src)ç›´æ¥å¼•å…¥åˆ°é¡¹ç›®å·¥ç¨‹ä¸­ã€‚
+æ–¹æ³•2 å°†[JARåŒ…]( http://maven.oa.com/nexus/content/groups/public/com/github/qcloudsms/sms/0.0.1/sms-0.0.1.jar)ç›´æ¥å¼•å…¥åˆ°æ‚¨çš„å·¥ç¨‹ä¸­ã€‚
 `Note`:
-ÓÉÓÚqcloudsmsÖĞĞèÒªÊ¹ÓÃÒÔÏÂËÄ¸öÒÀÀµÏîÄ¿
+ç”±äºqcloudsmsä¸­éœ€è¦ä½¿ç”¨ä»¥ä¸‹å››ä¸ªä¾èµ–é¡¹ç›®
 [org.json](http://central.maven.org/maven2/org/json/json/20170516/json-20170516.jar) , [httpclient](http://central.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar), [httpcore](http://central.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.7/httpcore-4.4.7.jar), [httpmine](http://central.maven.org/maven2/org/apache/httpcomponents/httpmime/4.5.3/httpmime-4.5.3.jar)
-`²ÉÓÃ·½·¨1£¬2Á½ÖÖ·½·¨¶¼ĞèÒª½«ÒÔÉÏËÄ¸öjar°üµ¼Èë¹¤³Ì`¡£
+`é‡‡ç”¨æ–¹æ³•1ï¼Œ2ä¸¤ç§æ–¹æ³•éƒ½éœ€è¦å°†ä»¥ä¸Šå››ä¸ªjaråŒ…å¯¼å…¥å·¥ç¨‹`ã€‚
 
-##ÓÃ·¨
+## ç”¨æ³•
 
->ÈôÄú¶Ô½Ó¿ÚÔÚÒÉÎÊ£¬¿ÉÒÔ²éÔÄ[APIÎÄµµ](http://static.javadoc.io/com.github.qcloudsms/sms/0.0.1/index.html?com/github/qcloudsms/package-summary.html)
+>è‹¥æ‚¨å¯¹æ¥å£åœ¨ç–‘é—®ï¼Œå¯ä»¥æŸ¥é˜…[APIæ–‡æ¡£](http://static.javadoc.io/com.github.qcloudsms/sms/0.0.1/index.html?com/github/qcloudsms/package-summary.html)
 
-Ê×ÏÈµ¼Èë¿â
+é¦–å…ˆå¯¼å…¥åº“
 ```
 import com.github.qcloudsms.*;
 ```
-µ¼Èëqcloudsms¿âÖ®ºó¿ÉÒÔ¿ªÊ¼·¢ËÍ¶ÌĞÅ¡£
+å¯¼å…¥qcloudsmsåº“ä¹‹åå¯ä»¥å¼€å§‹å‘é€çŸ­ä¿¡ã€‚
 
-###µ¥·¢¶ÌĞÅ
+- **å•å‘çŸ­ä¿¡**
 ```java
-	   try {
-			SmsSingleSender sender = new   SmsSingleSender(appid, "replace with key");
-			SmsSingleSenderResult result = sender.send(0, "86", "18326693192", "¡¾ÌÚÑ¶¡¿ÑéÖ¤Âë²âÊÔ1234", "", "123");
-			System.out.print(result);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	try {
+          SmsSingleSender sender = new   SmsSingleSender(appid, "replace with key");
+	  SmsSingleSenderResult result = sender.send(0, "86", "18326693192", "ã€è…¾è®¯ã€‘éªŒè¯ç æµ‹è¯•1234", "", "123");
+	  System.out.print(result);
+	} catch (Exception e) {
+	   e.printStackTrace();
+	}
 ```
-> `Note`:ÈçĞè·¢ËÍ¹ú¼Ê¶ÌĞÅ£¬Í¬Ñù¿ÉÒÔÊ¹ÓÃ´Ë½Ó¿Ú£¬Ö»Ğè½«¹ú¼ÒÂë"86"¸ÄĞ´³É¶ÔÓ¦¹ú¼ÒÂëºÅ¡£
-###Ö¸¶¨Ä£°åIDµ¥·¢¶ÌĞÅ
+> `Note`:å¦‚éœ€å‘é€å›½é™…çŸ­ä¿¡ï¼ŒåŒæ ·å¯ä»¥ä½¿ç”¨æ­¤æ¥å£ï¼Œåªéœ€å°†å›½å®¶ç "86"æ”¹å†™æˆå¯¹åº”å›½å®¶ç å·ã€‚
+- **æŒ‡å®šæ¨¡æ¿IDå•å‘çŸ­ä¿¡**
 ```java
-	  //¼ÙÉè¶ÌĞÅÄ£°å id Îª 123£¬Ä£°åÄÚÈİÎª£º²âÊÔ¶ÌĞÅ£¬{1}£¬{2}£¬{3}£¬ÉÏÑ§¡£
+	  //å‡è®¾çŸ­ä¿¡æ¨¡æ¿ id ä¸º 123ï¼Œæ¨¡æ¿å†…å®¹ä¸ºï¼šæµ‹è¯•çŸ­ä¿¡ï¼Œ{1}ï¼Œ{2}ï¼Œ{3}ï¼Œä¸Šå­¦ã€‚
 	  SmsSingleSender sender = new SmsSingleSender(1104620500,"5f03a35d00ee52a224d7ab048186a2c4");
 	  ArrayList<String> params = new ArrayList<String>();
-	  params.add("Ö¸¶¨Ä£°åµ¥·¢");
-	  params.add("ÉîÛÚ");
-	  params.add("Ğ¡Ã÷");
+	  params.add("æŒ‡å®šæ¨¡æ¿å•å‘");
+	  params.add("æ·±åœ³");
+	  params.add("å°æ˜");
 	  SmsSingleSenderResult   result = sender.sendWithParam("86", "18326693192", 123, params, "", "", "");
 	  System.out.println(result);
 ```
-> `Note:`ÎŞÂÛµ¥·¢¶ÌĞÅ»¹ÊÇÖ¸¶¨Ä£°åIDµ¥·¢¶ÌĞÅ¶¼ĞèÒª´Ó¿ØÖÆÌ¨ÖĞÉêÇëÄ£°å²¢ÇÒÄ£°åÒÑ¾­ÉóºËÍ¨¹ı£¬²Å¿ÉÄÜÏÂ·¢³É¹¦£¬·ñÔò·µ»ØÊ§°Ü¡£
+> `Note:`æ— è®ºå•å‘çŸ­ä¿¡è¿˜æ˜¯æŒ‡å®šæ¨¡æ¿IDå•å‘çŸ­ä¿¡éƒ½éœ€è¦ä»æ§åˆ¶å°ä¸­ç”³è¯·æ¨¡æ¿å¹¶ä¸”æ¨¡æ¿å·²ç»å®¡æ ¸é€šè¿‡ï¼Œæ‰å¯èƒ½ä¸‹å‘æˆåŠŸï¼Œå¦åˆ™è¿”å›å¤±è´¥ã€‚
 
-###Èº·¢
+- **ç¾¤å‘**
 ```
-	// ³õÊ¼»¯Èº·¢
+	// åˆå§‹åŒ–ç¾¤å‘
 	SmsMultiSender multiSender = new SmsMultiSender(appid, "replace with key");
-	// ÆÕÍ¨Èº·¢
-	// ÏÂÃæÊÇ 3 ¸ö¼ÙÉèµÄºÅÂë
+	// æ™®é€šç¾¤å‘
+	// ä¸‹é¢æ˜¯ 3 ä¸ªå‡è®¾çš„å·ç 
 	ArrayList<String> phoneNumbers = new ArrayList<String>();
 	phoneNumbers.add("13101116651");
 	phoneNumbers.add("13101116652");
 	phoneNumbers.add("13101116653");
-	SmsMultiSenderResult multiSenderResult = multiSender.send(0, "86", phoneNumbers, "²âÊÔ¶ÌĞÅ£¬ÆÕÍ¨Èº·¢£¬ÉîÛÚ£¬Ğ¡Ã÷£¬ÉÏÑ§¡£", "", "");
+	SmsMultiSenderResult multiSenderResult = multiSender.send(0, "86", phoneNumbers, "æµ‹è¯•çŸ­ä¿¡ï¼Œæ™®é€šç¾¤å‘ï¼Œæ·±åœ³ï¼Œå°æ˜ï¼Œä¸Šå­¦ã€‚", "", "");
 	System.out.println(multiSenderResult);
 ```
-###Ö¸¶¨Ä£°åIDÈº·¢
+- **æŒ‡å®šæ¨¡æ¿IDç¾¤å‘**
 ```
 	SmsMultiSender multiSender = new SmsMultiSender(appid, "replace with key");
-		// ÏÂÃæÊÇ 3 ¸ö¼ÙÉèµÄºÅÂë
+		// ä¸‹é¢æ˜¯ 3 ä¸ªå‡è®¾çš„å·ç 
 	ArrayList<String> phoneNumbers = new ArrayList<String>();
 	phoneNumbers.add("13101116651");
 	phoneNumbers.add("13101116652");
 	phoneNumbers.add("13101116653");
-	// ¼ÙÉè¶ÌĞÅÄ£°å id Îª 123£¬Ä£°åÄÚÈİÎª£º²âÊÔ¶ÌĞÅ£¬{1}£¬{2}£¬{3}£¬ÉÏÑ§¡£
+	// å‡è®¾çŸ­ä¿¡æ¨¡æ¿ id ä¸º 123ï¼Œæ¨¡æ¿å†…å®¹ä¸ºï¼šæµ‹è¯•çŸ­ä¿¡ï¼Œ{1}ï¼Œ{2}ï¼Œ{3}ï¼Œä¸Šå­¦ã€‚
 	params = new ArrayList<String>();
-	params.add("Ö¸¶¨Ä£°åÈº·¢");
-	params.add("ÉîÛÚ");
-	params.add("Ğ¡Ã÷");
+	params.add("æŒ‡å®šæ¨¡æ¿ç¾¤å‘");
+	params.add("æ·±åœ³");
+	params.add("å°æ˜");
 	multiSenderResult = multiSender.sendWithParam("86", phoneNumbers, 123, params, "", "", "");
 	System.out.println(multiSenderResult);
 ```
-> `Note:`Èº·¢Ò»´ÎÇëÇó×î¶àÖ§³Ö200¸öºÅÂë£¬ÈçÓĞ¶ÔºÅÂëÊıÁ¿ÓĞÌØÊâĞèÇóÇëÁªÏµÌÚÑ¶ÔÆ¶ÌĞÅ¼¼ÊõÖ§³Ö(QQ:3012203387)¡£
+> `Note:`ç¾¤å‘ä¸€æ¬¡è¯·æ±‚æœ€å¤šæ”¯æŒ200ä¸ªå·ç ï¼Œå¦‚æœ‰å¯¹å·ç æ•°é‡æœ‰ç‰¹æ®Šéœ€æ±‚è¯·è”ç³»è…¾è®¯äº‘çŸ­ä¿¡æŠ€æœ¯æ”¯æŒ(QQ:3012203387)ã€‚
 
-###·¢ËÍÓïÒôÑéÖ¤Âë
+- **å‘é€è¯­éŸ³éªŒè¯ç **
 ```java
-    //ÓïÒôÑéÖ¤Âë·¢ËÍ
-	   SmsVoiceVerifyCodeSender smsVoiceVerifyCodeSender = new SmsVoiceVerifyCodeSender(appid,appkey);
-	   SmsVoiceVerifyCodeSenderResult smsVoiceVerifyCodeSenderResult = smsVoiceVerifyCodeSender.send("86","1310555552", "123",2,"");
-	   System.out.println(smsVoiceVerifyCodeSenderResult);
+    //è¯­éŸ³éªŒè¯ç å‘é€
+      SmsVoiceVerifyCodeSender smsVoiceVerifyCodeSender = new SmsVoiceVerifyCodeSender(appid,appkey);
+      SmsVoiceVerifyCodeSenderResult smsVoiceVerifyCodeSenderResult = smsVoiceVerifyCodeSender.send("86","1310555552", "123",2,"");
+      System.out.println(smsVoiceVerifyCodeSenderResult);
 ```
->`Note`:ÓïÒôÑéÖ¤Âë·¢ËÍÖ»ĞèÌá¹©ÑéÖ¤ÂëÊı×Ö£¬ÀıÈçÔÚmsg=¡°123¡±,ÄúÊÕµ½µÄÓïÒôÍ¨ÖªÎª¡°ÄúµÄÓïÒôÑéÖ¤ÂëÊÇ1 2 3¡±£¬ÈçĞè×Ô¶¨ÒåÄÚÈİ£¬¿ÉÒÔÊ¹ÓÃÓïÒôÍ¨Öª
+>`Note`:è¯­éŸ³éªŒè¯ç å‘é€åªéœ€æä¾›éªŒè¯ç æ•°å­—ï¼Œä¾‹å¦‚åœ¨msg=â€œ123â€,æ‚¨æ”¶åˆ°çš„è¯­éŸ³é€šçŸ¥ä¸ºâ€œæ‚¨çš„è¯­éŸ³éªŒè¯ç æ˜¯1 2 3â€ï¼Œå¦‚éœ€è‡ªå®šä¹‰å†…å®¹ï¼Œå¯ä»¥ä½¿ç”¨è¯­éŸ³é€šçŸ¥
 
-###·¢ËÍÓïÒôÍ¨Öª
+- **å‘é€è¯­éŸ³é€šçŸ¥**
 ```
      SmsVoicePromptSender smsVoicePromtSender = new SmsVoicePromptSender(appid, appkey);
-     SmsVoicePromptSenderResult smsSingleVoiceSenderResult = smsVoicePromtSender.send("86", "13758028086", 2,2,"»¶Ó­Ê¹ÓÃXXX£¬±¾´Î»î¶¯xxx", "");
-	 System.out.println(smsSingleVoiceSenderResult);
+     SmsVoicePromptSenderResult smsSingleVoiceSenderResult = smsVoicePromtSender.send("86", "13758028086", 2,2,
+     "æ¬¢è¿ä½¿ç”¨XXXï¼Œæœ¬æ¬¡æ´»åŠ¨xxx", "");
+     System.out.println(smsSingleVoiceSenderResult);
 ```
 
-###À­È¡¶ÌĞÅ»ØÖ´ÒÔ¼°»Ø¸´
+- **æ‹‰å–çŸ­ä¿¡å›æ‰§ä»¥åŠå›å¤**
 ```
-   	SmsStatusPuller pullstatus = new SmsStatusPuller(appid, appkey);
+    SmsStatusPuller pullstatus = new SmsStatusPuller(appid, appkey);
     SmsStatusPullCallbackResult callbackResult = pullstatus.pullCallback(10);
     System.out.println(callbackResult);
     SmsStatusPullReplyResult replyResult = pullstatus.pullReply(10);
     System.out.println(replyResult);
 ```
-> `Note:` ¶ÌĞÅÀ­È¡¹¦ÄÜĞèÒªÁªÏµÌÚÑ¶ÔÆ¶ÌĞÅ¼¼ÊõÖ§³Ö(QQ:3012203387)£¬Á¿´ó¿Í»§¿ÉÒÔÊ¹ÓÃ´Ë¹¦ÄÜÅúÁ¿À­È¡£¬ÆäËû¿Í»§²»½¨ÒéÊ¹ÓÃ¡£
+> `Note:` çŸ­ä¿¡æ‹‰å–åŠŸèƒ½éœ€è¦è”ç³»è…¾è®¯äº‘çŸ­ä¿¡æŠ€æœ¯æ”¯æŒ(QQ:3012203387)ï¼Œé‡å¤§å®¢æˆ·å¯ä»¥ä½¿ç”¨æ­¤åŠŸèƒ½æ‰¹é‡æ‹‰å–ï¼Œå…¶ä»–å®¢æˆ·ä¸å»ºè®®ä½¿ç”¨ã€‚
 
-###·¢ËÍ¹ú¼Ê¶ÌĞÅ
-¹ú¼Ê¶ÌĞÅ²Î¿¼µ¥·¢¶ÌĞÅ
+- **å‘é€å›½é™…çŸ­ä¿¡**
+å›½é™…çŸ­ä¿¡å‚è€ƒå•å‘çŸ­ä¿¡
 
 
