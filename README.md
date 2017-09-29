@@ -30,7 +30,7 @@ qcloudsms可以采用多种方式进行安装，我们提供以下三种方法�
 ### sbt
 
 ```
-libraryDependencies += "com.github.qcloudsms" % "sms" % "0.0.1"
+libraryDependencies += "com.github.qcloudsms" % "sms" % "0.9.0"
 ```
 
 ### 其他
