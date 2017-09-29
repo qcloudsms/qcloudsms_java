@@ -67,7 +67,7 @@ import com.github.qcloudsms.*;
 - **指定模板ID单发短信**
 ```java
 	  //假设短信模板 id 为 123，模板内容为：测试短信，{1}，{2}，{3}，上学。
-	SmsSingleSender sender = new SmsSingleSender(1104620500,"5f03a35d00ee52a224d7ab048186a2c4");
+	SmsSingleSender sender = new SmsSingleSender(appid,"replace with key");
 	ArrayList<String> params = new ArrayList<String>();
 	params.add("指定模板单发");
 	params.add("深圳");
