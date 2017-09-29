@@ -26,7 +26,7 @@ public class SmsVoiceUploader {
 		this.appkey = appkey;
 	}
 
-	/**
+	/*
 	 * 上传文件
 	 * @param filePath �?要上传文件本地路�?
 	 * @return {@link}SmsVoiceUploaderResult

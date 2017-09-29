@@ -2,15 +2,15 @@ package com.github.qcloudsms;
 
 public class SmsSingleVoiceSenderResult {
 
-/*
-{
-    "result": 0, //0表示成功，非0表示失败
-    "errmsg": "", //result�?0时的具体错误信息
-    "ext": "some msg", //可�?�字段，用户的session内容，腾讯server回包中会原样返回
-    "callid": "xxxx" //标识本次发�?�id
-}
+	/*
+	{
+	    "result": 0, //0表示成功，非0表示失败
+	    "errmsg": "", //result非0时的具体错误信息
+	    "ext": "some msg", //可选字段，用户的session内容，腾讯server回包中会原样返回
+	    "callid": "xxxx" //标识本次发送id
+	}
 
-*/
+	*/
 	public int result;
 	public String errmsg;
 	public String ext = "";

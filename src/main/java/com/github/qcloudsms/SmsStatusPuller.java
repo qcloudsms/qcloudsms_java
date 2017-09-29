@@ -24,7 +24,7 @@ public class SmsStatusPuller {
 		{
 			"sig": "xxxxxx", // sha256(appkey=$appkey&rand=$rand&time=$time)
 			"type": 0, // 类型
-			"max": 10, //�?大条�?
+			"max": 10, //最大条数
 			"time": 1464624000 //unix时间戳，请求发起时间，如果和系统时间相差超过10分钟则会拉取失败
 		}
 		*/
@@ -39,7 +39,7 @@ public class SmsStatusPuller {
 		data.put("type", type);
 		data.put("max", max);
 
-		// 与上面的 random 必须�?�?
+		// 与上面的 random 必须一致
 		String wholeUrl = String.format("%s?sdkappid=%d&random=%d", url, appid, random);
 		HttpURLConnection conn = util.getPostHttpConn(wholeUrl);
 
@@ -49,9 +49,9 @@ public class SmsStatusPuller {
 
 		return conn;
 	}
-	/**
+	/*
 	 * 拉取回执结果
-	 * @param max �?大条�? �?�?100
+	 * @param max 最大条数 最多100
 	 * @return {@link}pullCallback
 	 * @throws Exception
 	 */
@@ -59,7 +59,7 @@ public class SmsStatusPuller {
 
 		HttpURLConnection conn = constructConnection(0,max);//1表示短信回执
 
-		// 显示 POST 请求返回的内�?
+		// 显示 POST 请求返回的内容
 		StringBuilder sb = new StringBuilder();
 		int httpRspCode = conn.getResponseCode();
 		SmsStatusPullCallbackResult result;
@@ -84,9 +84,9 @@ public class SmsStatusPuller {
 	}
 
 
-	/**
+	/*
 	 * 拉取回复信息
-	 * @param max �?大条�? �?�?100
+	 * @param max 最大条数 最多100
 	 * @return {@link}pullReply
 	 * @throws Exception
 	 */
@@ -94,7 +94,7 @@ public class SmsStatusPuller {
 
 		HttpURLConnection conn = constructConnection(1,max);//1表示回复
 
-		// 显示 POST 请求返回的内�?
+		// 显示 POST 请求返回的内容
 		StringBuilder sb = new StringBuilder();
 		int httpRspCode = conn.getResponseCode();
 		SmsStatusPullReplyResult result;

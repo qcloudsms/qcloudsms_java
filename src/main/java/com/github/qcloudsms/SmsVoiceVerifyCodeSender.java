@@ -19,14 +19,14 @@ public class SmsVoiceVerifyCodeSender {
     	this.appkey = appkey;
     }
 
-    /**
-     * 发�?�语音短�?
-     * @param nationCode 国家码，�? 86 为中�?
-     * @param phoneNumber 不带国家码的手机�?
-     * @param type 类型，目前只�? 3
-     * @param fileName 上传后生成的文件地址{@link}SmsVoiceUploader
+    /*
+     * 发送语音短信
+     * @param nationCode 国家码，如 86 为中国
+     * @param phoneNumber 不带国家码的手机号
+     * @param msg 消息类型
+     * @param playtimes 播放次数
      * @param ext 服务端原样返回的参数，可填空
-     * @return {@link}SmsSingleVoiceSenderResult
+     * @return {@link}SmsVoiceVerifyCodeSenderResult
      * @throws Exception
      */
     public SmsVoiceVerifyCodeSenderResult send(
@@ -61,7 +61,7 @@ public class SmsVoiceVerifyCodeSender {
         data.put("time", curTime);
         data.put("ext", ext);
 
-        // 与上面的 random 必须�?�?
+        // 与上面的 random 必须一致
 		String wholeUrl = String.format("%s?sdkappid=%d&random=%d", url, appid,random);
         HttpURLConnection conn = util.getPostHttpConn(wholeUrl);
 
@@ -70,7 +70,7 @@ public class SmsVoiceVerifyCodeSender {
         wr.write(data.toString());
         wr.flush();
 
-        // 显示 POST 请求返回的内�?
+        // 显示 POST 请求返回的内容
         StringBuilder sb = new StringBuilder();
         int httpRspCode = conn.getResponseCode();
         SmsVoiceVerifyCodeSenderResult result;

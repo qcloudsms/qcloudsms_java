@@ -1,14 +1,13 @@
 package com.github.qcloudsms;
 
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-
-// org.json 第三方库请自行下载编译，或�?�在以下链接下载使用 jdk 1.7 的版�?
-// http://share.weiyun.com/630a8c65e9fd497f3687b3546d0b839e
 import org.json.JSONObject;
+
 
 public class SmsMultiSender {
 	int appid;
@@ -22,17 +21,17 @@ public class SmsMultiSender {
 		this.appkey = appkey;
 	}
 
-	/**
-	 * 普�?�群发，明确指定内容，如果有多个签名，请在内容中以�?��?�的方式添加到信息内容中，否则系统将使用默认签名
-	 * 【注意�?�海外短信无群发功能
-	 * @param type 短信类型�?0 为普通短信，1 营销短信
-	 * @param nationCode 国家码，�? 86 为中�?
-	 * @param phoneNumbers 不带国家码的手机号列�?
-	 * @param msg 信息内容，必须与申请的模板格式一致，否则将返回错�?
-	 * @param extend 扩展码，可填�?
+	/*
+	 * 普通群发，明确指定内容，如果有多个签名，请在内容中以【】的方式添加到信息内容中，否则系统将使用默认签名
+	 * 【注意】海外短信无群发功能
+	 * @param type 短信类型，0 为普通短信，1 营销短信
+	 * @param nationCode 国家码，如 86 为中国
+	 * @param phoneNumbers 不带国家码的手机号列表
+	 * @param msg 信息内容，必须与申请的模板格式一致，否则将返回错误
+	 * @param extend 扩展码，可填空
 	 * @param ext 服务端原样返回的参数，可填空
 	 * @return {@link}SmsMultiSenderResult
-	 * @throws Excetion
+	 *  @throws Excetion null
 	 */
 	public SmsMultiSenderResult send(
 			int type,
@@ -119,7 +118,7 @@ public class SmsMultiSender {
         wr.write(data.toString());
         wr.flush();
 
-        // 显示 POST 请求返回的内�?
+        // 显示 POST 请求返回的内容
         StringBuilder sb = new StringBuilder();
         int httpRspCode = conn.getResponseCode();
         SmsMultiSenderResult result;
@@ -141,16 +140,16 @@ public class SmsMultiSender {
         return result;
 	}
 
-	/**
+	/*
 	 * 指定模板群发
-	 * 【注意�?�海外短信无群发功能
-	 * @param nationCode 国家码，�? 86 为中�?
-	 * @param phoneNumbers 不带国家码的手机号列�?
+	 * 【注意】海外短信无群发功能
+	 * @param nationCode 国家码，如 86 为中国
+	 * @param phoneNumbers 不带国家码的手机号列表
 	 * @param templId 模板 id
 	 * @param params 模板参数列表
-	 * @param sign 签名，如果填空，系统会使用默认签�?
+	 * @param sign 签名，如果填空，系统会使用默认签名
 	 * @param extend 扩展码，可以填空
-	 * @param ext 服务端原样返回的参数，可以填�?
+	 * @param ext 服务端原样返回的参数，可以填空
 	 * @return {@link}SmsMultiSenderResult
 	 * @throws Exception
 	 */
@@ -175,10 +174,10 @@ public class SmsMultiSender {
             "mobile": "13788888889"
         }
     ],
-    "sign": "腾讯�?",
+    "sign": "腾讯云",
     "tpl_id": 19,
     "params": [
-        "验证�?",
+        "验证码",
         "1234",
         "4"
     ],
@@ -252,7 +251,7 @@ public class SmsMultiSender {
         wr.write(data.toString());
         wr.flush();
 
-        // 显示 POST 请求返回的内�?
+        // 显示 POST 请求返回的内容
         StringBuilder sb = new StringBuilder();
         int httpRspCode = conn.getResponseCode();
         SmsMultiSenderResult result;

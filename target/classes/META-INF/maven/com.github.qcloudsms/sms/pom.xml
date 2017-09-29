@@ -2,43 +2,136 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.qcloudsms</groupId>
   <artifactId>sms</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <name>qcloud sms java sdk</name>
+  <url>https://github.com/qcloudsms/qcloudsms_java/</url>
   <description>this Repository is responsible for qlcoud sms sdk</description>
-  <build>
-  	<plugins>
-  		<plugin>
-  			<groupId>org.apache.maven.plugins</groupId>
-  			<artifactId>maven-shade-plugin</artifactId>
-  			<version>2.3</version>
-  		</plugin>
-  	</plugins>
-  </build>
-  <dependencies>
-  	<dependency>
-  		<groupId>org.apache.maven.plugins</groupId>
-  		<artifactId>maven-shade-plugin</artifactId>
-  		<version>2.3</version>
-  	</dependency>
+  <licenses>
+	  <license>
+	   <name>MIT License</name>
+	   <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+	  </license>
+  </licenses>
+
+ <developers>
+  <developer>
+   <name>cubin lai</name>
+   <email>cubinlai@tencent.com</email>
+   <organization>tencnet</organization>
+   <organizationUrl>tencent</organizationUrl>
+  </developer>
+ </developers>
+
+ <scm>
+  <connection>scm:git:git://github.com/qcloudsms/qcloudsms_java.git</connection>
+  <developerConnection>scm:git:git://github.com/qcloudsms/qcloudsms_java.git</developerConnection>
+  <url>https://github.com/qcloudsms/qcloudsms_java/blob/master/LICENSE</url>
+ </scm>
+
+ <distributionManagement>
+  <snapshotRepository>
+   <id>ossrh</id>
+   <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+  </snapshotRepository>
+  <repository>
+   <id>ossrh</id>
+   <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+  </repository>
+ </distributionManagement>
+
+ <properties>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ </properties>
+
+ <dependencies>
+	 <dependency>
+	   <groupId>junit</groupId>
+	   <artifactId>junit</artifactId>
+	   <version>3.8.1</version>
+	   <scope>test</scope>
+	  </dependency>
+
   	<dependency>
   		<groupId>org.json</groupId>
   		<artifactId>json</artifactId>
   		<version>20170516</version>
   	</dependency>
+
   	<dependency>
   		<groupId>org.apache.httpcomponents</groupId>
   		<artifactId>httpclient</artifactId>
   		<version>4.5.3</version>
   	</dependency>
+
   	<dependency>
   		<groupId>org.apache.httpcomponents</groupId>
   		<artifactId>httpcore</artifactId>
   		<version>4.4.7</version>
   	</dependency>
+
   	<dependency>
   		<groupId>org.apache.httpcomponents</groupId>
   		<artifactId>httpmime</artifactId>
   		<version>4.5.3</version>
   	</dependency>
-  </dependencies>
+
+ </dependencies>
+
+
+ <build>
+  <plugins>
+  <plugin>
+      <groupId>org.sonatype.plugins</groupId>
+      <artifactId>nexus-staging-maven-plugin</artifactId>
+      <version>1.6.7</version>
+      <extensions>true</extensions>
+      <configuration>
+        <serverId>ossrh</serverId>
+        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+      </configuration>
+    </plugin>
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-source-plugin</artifactId>
+    <version>2.2.1</version>
+    <executions>
+     <execution>
+      <id>attach-sources</id>
+      <goals>
+       <goal>jar-no-fork</goal>
+      </goals>
+     </execution>
+    </executions>
+   </plugin>
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-javadoc-plugin</artifactId>
+    <version>2.9.1</version>
+    <executions>
+     <execution>
+      <id>attach-javadocs</id>
+      <goals>
+       <goal>jar</goal>
+      </goals>
+     </execution>
+    </executions>
+   </plugin>
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-gpg-plugin</artifactId>
+    <version>1.5</version>
+    <executions>
+     <execution>
+      <id>sign-artifacts</id>
+      <phase>verify</phase>
+      <goals>
+       <goal>sign</goal>
+      </goals>
+     </execution>
+    </executions>
+   </plugin>
+  </plugins>
+ </build>
+
 </project>

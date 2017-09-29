@@ -20,15 +20,15 @@ public class SmsVoicePromptSender {
     }
 
     /**
-     * 发�?�语音短�?
-     * @param nationCode 国家码，�? 86 为中�?
-     * @param phoneNumber 不带国家码的手机�?
-     * @param prompttype 类型，目前固定�?�为2
+     * 发送语音短信
+     * @param nationCode 国家码，如 86 为中国
+     * @param phoneNumber 不带国家码的手机号
+     * @param prompttype 类型，目前固定值为2
      * @param playtimes 播放次数
      * @param msg 语音通知消息内容
-     * @param ext  "扩展字段，原样返�?"
-     * @return {@link}SmsSingleVoiceSenderResult
-     * @throws Exception
+     * @param ext  "扩展字段，原样返回"
+     * @return {@link}SmsVoicePromptSenderResult
+     * @throws Exception "exception"
      */
     public SmsVoicePromptSenderResult send(
     		String nationCode,
@@ -64,7 +64,7 @@ public class SmsVoicePromptSender {
         data.put("time", curTime);
         data.put("ext", ext);
 
-        // 与上面的 random 必须�?�?
+        // 与上面的 random 必须一致
 		String wholeUrl = String.format("%s?sdkappid=%d&random=%d", url, appid,random);
         HttpURLConnection conn = util.getPostHttpConn(wholeUrl);
 
@@ -73,7 +73,7 @@ public class SmsVoicePromptSender {
         wr.write(data.toString());
         wr.flush();
 
-        // 显示 POST 请求返回的内�?
+        // 显示 POST 请求返回的内容
         StringBuilder sb = new StringBuilder();
         int httpRspCode = conn.getResponseCode();
         SmsVoicePromptSenderResult result;

@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+
 import org.json.JSONObject;
 
 public class SmsSingleSender {
@@ -19,13 +20,13 @@ public class SmsSingleSender {
 		this.appkey = appkey;
 	}
 
-	/**
-	 * 普�?�单发短信接口，明确指定内容，如果有多个签名，请在内容中以�?��?�的方式添加到信息内容中，否则系统将使用默认签名
-	 * @param type 短信类型�?0 为普通短信，1 营销短信
-	 * @param nationCode 国家码，�? 86 为中�?
-	 * @param phoneNumber 不带国家码的手机�?
-	 * @param msg 信息内容，必须与申请的模板格式一致，否则将返回错�?
-	 * @param extend 扩展码，可填�?
+	/*
+	 * 普通单发短信接口，明确指定内容，如果有多个签名，请在内容中以【】的方式添加到信息内容中，否则系统将使用默认签名
+	 * @param type 短信类型，0 为普通短信，1 营销短信
+	 * @param nationCode 国家码，如 86 为中国
+	 * @param phoneNumber 不带国家码的手机号
+	 * @param msg 信息内容，必须与申请的模板格式一致，否则将返回错误
+	 * @param extend 扩展码，可填空
 	 * @param ext 服务端原样返回的参数，可填空
 	 * @return {@link}SmsSingleSenderResult
 	 * @throws Exception
@@ -91,7 +92,7 @@ public class SmsSingleSender {
         data.put("extend", extend);
         data.put("ext", ext);
 
-        // 与上面的 random 必须�?�?
+        // 与上面的 random 必须一致
 		String wholeUrl = String.format("%s?sdkappid=%d&random=%d", url, appid, random);
         HttpURLConnection conn = util.getPostHttpConn(wholeUrl);
 
@@ -101,7 +102,7 @@ public class SmsSingleSender {
 
         System.out.println(data.toString());
 
-        // 显示 POST 请求返回的内�?
+        // 显示 POST 请求返回的内容
         StringBuilder sb = new StringBuilder();
         int httpRspCode = conn.getResponseCode();
         SmsSingleSenderResult result;
@@ -123,14 +124,14 @@ public class SmsSingleSender {
         return result;
 	}
 
-	/**
+	/*
 	 * 指定模板单发
-	 * @param nationCode 国家码，�? 86 为中�?
-	 * @param phoneNumber 不带国家码的手机�?
+	 * @param nationCode 国家码，如 86 为中国
+	 * @param phoneNumber 不带国家码的手机号
 	 * @param templId 信息内容
 	 * @param params 模板参数列表，如模板 {1}...{2}...{3}，那么需要带三个参数
-	 * @param sign 签名，如果填空，系统会使用默认签�?
-	 * @param extend 扩展码，可填�?
+	 * @param sign 签名，如果填空，系统会使用默认签名
+	 * @param extend 扩展码，可填空
 	 * @param ext 服务端原样返回的参数，可填空
 	 * @return {@link}SmsSingleSenderResult
 	 * @throws Exception
@@ -150,10 +151,10 @@ public class SmsSingleSender {
         "nationcode": "86",
         "mobile": "13788888888"
     },
-    "sign": "腾讯�?",
+    "sign": "腾讯云",
     "tpl_id": 19,
     "params": [
-        "验证�?",
+        "验证码",
         "1234",
         "4"
     ],
@@ -212,7 +213,7 @@ public class SmsSingleSender {
         wr.write(data.toString());
         wr.flush();
 
-        // 显示 POST 请求返回的内�?
+        // 显示 POST 请求返回的内容
         StringBuilder sb = new StringBuilder();
         int httpRspCode = conn.getResponseCode();
         SmsSingleSenderResult result;
