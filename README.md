@@ -78,7 +78,7 @@ import com.github.qcloudsms.*;
 > `Note:`无论单发短信还是指定模板ID单发短信都需要从控制台中申请模板并且模板已经审核通过，才可能下发成功，否则返回失败。
 
 - **群发**
-```
+```java
 // 初始化群发
 SmsMultiSender multiSender = new SmsMultiSender(appid, "replace with key");
 // 普通群发
@@ -92,7 +92,7 @@ SmsMultiSenderResult multiSenderResult = multiSender.send(0, "86", phoneNumbers,
 System.out.println(multiSenderResult);
 ```
 - **指定模板ID群发**
-```
+```java
 SmsMultiSender multiSender = new SmsMultiSender(appid, "replace with key");
 // 下面是 3 个假设的号码
 ArrayList<String> phoneNumbers = new ArrayList<String>();
