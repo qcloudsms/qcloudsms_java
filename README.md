@@ -120,7 +120,7 @@ System.out.println(multiSenderResult);
 >`Note`:语音验证码发送只需提供验证码数字，例如在msg=“123”,您收到的语音通知为“您的语音验证码是1 2 3”，如需自定义内容，可以使用语音通知
 
 - **发送语音通知**
-```
+```java
    SmsVoicePromptSender smsVoicePromtSender = new SmsVoicePromptSender(appid, "replace with key");
    SmsVoicePromptSenderResult smsSingleVoiceSenderResult = smsVoicePromtSender.send("86", "13758028086", 2,2,
      "欢迎使用XXX，本次活动xxx", "");
@@ -128,7 +128,7 @@ System.out.println(multiSenderResult);
 ```
 
 - **拉取短信回执以及回复**
-```
+```java
    SmsStatusPuller pullstatus = new SmsStatusPuller(appid, "replace with key");
    SmsStatusPullCallbackResult callbackResult = pullstatus.pullCallback(10);
    System.out.println(callbackResult);
