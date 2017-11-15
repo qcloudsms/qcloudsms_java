@@ -172,6 +172,7 @@ class SmsSenderUtil {
 
     	result.result = json.getInt("result");
     	result.errmsg = json.getString("errmsg");
+	result.count = json.getInt("count");
     	if (true == json.isNull("data")) {
     		return result;
     	}

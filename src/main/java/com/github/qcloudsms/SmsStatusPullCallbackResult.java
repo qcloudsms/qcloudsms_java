@@ -24,8 +24,8 @@ public class SmsStatusPullCallbackResult {
 						user_receive_time,
 						nationcode,
 						mobile,
-						report_status,
 						errmsg,
+						report_status,
 						description,
 						sid);
 			} else {
@@ -57,4 +57,3 @@ public class SmsStatusPullCallbackResult {
 		}
 	}
 }
-
