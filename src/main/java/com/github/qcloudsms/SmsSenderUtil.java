@@ -58,8 +58,11 @@ class SmsSenderUtil {
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setRequestProperty("Accept", "application/json");
         conn.setRequestMethod("POST");
+        conn.setConnectTimeout(5000);
+        conn.setReadTimeout(5000);
+
         return conn;
-	}
+    }
 
     public String calculateSig(
     		String appkey,
