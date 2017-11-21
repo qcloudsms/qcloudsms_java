@@ -16,8 +16,8 @@ import org.apache.http.impl.client.HttpClients;
 public class SmsVoiceUploader {
 	String appkey;
 	int appid;
-	String url = "https://test.tim.qq.com/v3/tlsvoicesvr/upload_voice";
-	//String url = "https://yun.tim.qq.com/v3/tlsvoicesvr/upload_voice";
+	//String url = "https://test.tim.qq.com/v3/tlsvoicesvr/upload_voice";
+	String url = "https://yun.tim.qq.com/v3/tlsvoicesvr/upload_voice";
 
 	SmsSenderUtil util = new SmsSenderUtil();
 
