@@ -1,30 +1,32 @@
 package com.github.qcloudsms;
 
-public class SmsVoicePromptSenderResult {
+import com.github.qcloudsms.httpclient.HTTPResponse;
 
-	/*
-	{
-	    "result": 0, //0表示成功，非0表示失败
-	    "errmsg": "", //result非0时的具体错误信息
-	    "ext": "some msg", //可选字段，用户的session内容，腾讯server回包中会原样返回
-	    "callid": "xxxx" //标识本次发送id
-	}
+import org.json.JSONObject;
+import org.json.JSONException;
 
-	*/
-	public int result;
-	public String errmsg;
-	public String ext = "";
-	public String callid;
 
-	public String toString() {
-		if (0 == result) {
-			return String.format(
-					"SmsVoicePromptSenderResult\nresult %d\nerrmsg %s\next %s\ncallid %s",
-					result, errmsg, ext, callid);
-		} else {
-			return String.format(
-					"SmsVoicePromptSenderResult\nresult %d\nerrmsg %s\next %s",
-					result, errmsg, ext);
-		}
-	}
+public class SmsVoicePromptSenderResult extends SmsResultBase {
+
+    public int result;
+    public String errMsg;
+    public String ext = "";
+    public String callid = "";
+
+    @Override
+    public SmsVoicePromptSenderResult parseFromHTTPResponse(HTTPResponse response)
+            throws JSONException {
+
+        JSONObject json = parseToJson(response);
+
+        result = json.getInt("result");
+        errMsg = json.getString("errmsg");
+
+        if (result == 0) {
+            ext = json.getString("ext");
+            callid = json.getString("callid");
+        }
+
+        return this;
+    }
 }
