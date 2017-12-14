@@ -17,7 +17,7 @@ public interface HTTPClient {
      *
      * @return the response to the request.
      * @throws IOException  connection problem.
-     * @throws HTTPException http exception
+     * @throws URISyntaxException  url syntax problem.
      */
     HTTPResponse fetch(HTTPRequest request)
         throws IOException, URISyntaxException;
@@ -25,7 +25,6 @@ public interface HTTPClient {
     /**
      * Close http client and release resource
      *
-     * @return void
      */
     void close();
 }

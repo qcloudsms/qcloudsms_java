@@ -39,9 +39,9 @@ public class SmsSingleSender extends SmsBase {
      * @param extend 扩展码，可填空
      * @param ext 服务端原样返回的参数，可填空
      * @return {@link}SmsSingleSenderResult
-     * @throws HTTPException
-     * @throws JSONException
-     * @throws IOException
+     * @throws HTTPException  http status exception
+     * @throws JSONException  json parse exception
+     * @throws IOException    network problem
      */
     public SmsSingleSenderResult send(int type, String nationCode, String phoneNumber,
         String msg, String extend, String ext)
@@ -52,10 +52,11 @@ public class SmsSingleSender extends SmsBase {
         JSONObject body = new JSONObject()
             .put("tel", (new JSONObject()).put("nationcode", nationCode).put("mobile", phoneNumber))
             .put("type", type)
+            .put("msg", msg)
             .put("sig", SmsSenderUtil.calculateSignature(this.appkey, random, now, phoneNumber))
             .put("time", now)
-            .put("extend", extend)
-            .put("ext", ext);
+            .put("extend", Boolean.valueOf(extend) ? extend : "")
+            .put("ext", Boolean.valueOf(ext) ? extend : "");
 
         HTTPRequest req = new HTTPRequest(HTTPMethod.POST, this.url)
             .addHeader("Conetent-Type", "application/json")
@@ -91,9 +92,9 @@ public class SmsSingleSender extends SmsBase {
      * @param extend 扩展码，可填空
      * @param ext 服务端原样返回的参数，可填空
      * @return {@link}SmsSingleSenderResult
-     * @throws HTTPException
-     * @throws JSONException
-     * @throws IOException
+     * @throws HTTPException  http status exception
+     * @throws JSONException  json parse exception
+     * @throws IOException    network problem
      */
     public SmsSingleSenderResult sendWithParam(String nationCode, String phoneNumber, int templateId,
         ArrayList<String> params, String sign, String extend, String ext)
@@ -109,8 +110,8 @@ public class SmsSingleSender extends SmsBase {
             .put("params", params)
             .put("sign", sign)
             .put("time", now)
-            .put("extend", extend)
-            .put("ext", ext);
+            .put("extend", Boolean.valueOf(extend) ? extend : "")
+            .put("ext", Boolean.valueOf(ext) ? ext : "");
 
         HTTPRequest req = new HTTPRequest(HTTPMethod.POST, this.url)
             .addHeader("Conetent-Type", "application/json")

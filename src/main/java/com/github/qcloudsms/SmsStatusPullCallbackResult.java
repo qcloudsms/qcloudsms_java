@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class SmsStatusPullCallbackResult extends SmsResultBase {
 
     public class Callback {
-        // NOTE: Following member variable naming style is just for compatible with old interface
         String user_receive_time;
         String nationcode;
         String mobile;
@@ -49,6 +48,12 @@ public class SmsStatusPullCallbackResult extends SmsResultBase {
     String errMsg;
     int count;
     ArrayList<Callback> callbacks;
+
+    public SmsStatusPullCallbackResult() {
+        this.errMsg = "";
+        this.count = 0;
+        this.callbacks = new ArrayList<Callback>();
+    }
 
     @Override
     public SmsStatusPullCallbackResult  parseFromHTTPResponse(HTTPResponse response)

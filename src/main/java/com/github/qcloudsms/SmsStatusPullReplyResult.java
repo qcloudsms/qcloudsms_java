@@ -42,6 +42,12 @@ public class SmsStatusPullReplyResult extends SmsResultBase {
     public int count;
     public ArrayList<Reply> replys;
 
+    public SmsStatusPullReplyResult() {
+        this.errMsg = "";
+        this.count = 0;
+        this.replys = new ArrayList<Reply>();
+    }
+
     @Override
     public SmsStatusPullReplyResult parseFromHTTPResponse(HTTPResponse response)
             throws JSONException {

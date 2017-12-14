@@ -17,6 +17,9 @@ public class HTTPRequest {
         super();
         this.method = method;
         this.url = url;
+
+        this.headers = new HashMap<String, String>();
+        this.parameters = new HashMap<String, String>();
     }
 
     public HTTPRequest setBody(String body) {

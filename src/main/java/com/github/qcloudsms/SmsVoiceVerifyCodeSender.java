@@ -35,9 +35,9 @@ public class SmsVoiceVerifyCodeSender extends SmsBase {
      * @param playtimes 播放次数
      * @param ext 服务端原样返回的参数，可填空
      * @return {@link}SmsVoiceVerifyCodeSenderResult
-     * @throws HTTPException
-     * @throws JSONException
-     * @throws IOException
+     * @throws HTTPException  http status exception
+     * @throws JSONException  json parse exception
+     * @throws IOException    network problem
      */
     public SmsVoiceVerifyCodeSenderResult send(String nationCode, String phoneNumber, String msg,
         int playtimes, String ext)
@@ -51,7 +51,7 @@ public class SmsVoiceVerifyCodeSender extends SmsBase {
             .put("playtimes", playtimes)
             .put("sig", SmsSenderUtil.calculateSignature(this.appkey, random, now, phoneNumber))
             .put("time", now)
-            .put("ext", ext);
+            .put("ext", Boolean.valueOf(ext) ? ext : "");
 
         HTTPRequest req = new HTTPRequest(HTTPMethod.POST, this.url)
             .addHeader("Conetent-Type", "application/json")

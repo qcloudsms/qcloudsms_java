@@ -10,10 +10,14 @@ public class SmsVoiceVerifyCodeSenderResult extends SmsResultBase {
 
     public int result;
     public String errMsg;
-    public String ext = "";
+    public String ext;
     public String callid;
 
-    private HTTPResponse response;
+    public SmsVoiceVerifyCodeSenderResult() {
+        this.errMsg = "";
+        this.ext = "";
+        this.callid = "";
+    }
 
     @Override
     public SmsVoiceVerifyCodeSenderResult parseFromHTTPResponse(HTTPResponse response)

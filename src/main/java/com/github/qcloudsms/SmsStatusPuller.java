@@ -31,7 +31,7 @@ public class SmsStatusPuller extends SmsBase {
         long random = SmsSenderUtil.getRandom();
         long now = SmsSenderUtil.getCurrentTime();
         JSONObject body = new JSONObject()
-            .put("sign", SmsSenderUtil.calculateSignature(this.appkey, random, now))
+            .put("sig", SmsSenderUtil.calculateSignature(this.appkey, random, now))
             .put("time", now)
             .put("type", type)
             .put("max", max);
@@ -57,9 +57,9 @@ public class SmsStatusPuller extends SmsBase {
      *
      * @param max  最大条数, 最多100
      * @return {@link}SmsStatusPullCallbackResult
-     * @throws HTTPException
-     * @throws JSONException
-     * @throws IOException
+     * @throws HTTPException  http status exception
+     * @throws JSONException  json parse exception
+     * @throws IOException    network problem
      */
     public SmsStatusPullCallbackResult pullCallback(int max)
             throws HTTPException, JSONException, IOException {
@@ -80,9 +80,9 @@ public class SmsStatusPuller extends SmsBase {
      *
      * @param max  最大条数, 最多100
      * @return {@link}SmsStatusPullReplyResult
-     * @throws HTTPException
-     * @throws JSONException
-     * @throws IOException
+     * @throws HTTPException  http status exception
+     * @throws JSONException  json parse exception
+     * @throws IOException    network problem
      */
     public SmsStatusPullReplyResult pullReply(int max)
             throws HTTPException, JSONException, IOException {

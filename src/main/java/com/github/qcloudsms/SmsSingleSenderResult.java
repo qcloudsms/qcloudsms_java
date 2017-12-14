@@ -9,10 +9,17 @@ import com.github.qcloudsms.httpclient.HTTPResponse;
 public class SmsSingleSenderResult extends SmsResultBase {
 
     public int result;
-    public String errMsg = "";
-    public String ext = "";
-    public String sid = "";
+    public String errMsg;
+    public String ext;
+    public String sid;
     public int fee;
+
+    public SmsSingleSenderResult() {
+        this.errMsg = "";
+        this.ext = "";
+        this.sid = "";
+        this.fee = 0;
+    }
 
     @Override
     public SmsSingleSenderResult parseFromHTTPResponse(HTTPResponse response)

@@ -10,8 +10,14 @@ public class SmsVoicePromptSenderResult extends SmsResultBase {
 
     public int result;
     public String errMsg;
-    public String ext = "";
-    public String callid = "";
+    public String ext;
+    public String callid;
+
+    public SmsVoicePromptSenderResult() {
+        this.errMsg = "";
+        this.ext = "";
+        this.callid = "";
+    }
 
     @Override
     public SmsVoicePromptSenderResult parseFromHTTPResponse(HTTPResponse response)

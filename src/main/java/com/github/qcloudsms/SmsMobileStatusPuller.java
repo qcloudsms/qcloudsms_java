@@ -16,15 +16,15 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 
-class SmsMobileStausPuller extends SmsBase {
+public class SmsMobileStatusPuller extends SmsBase {
 
     private String url = "https://yun.tim.qq.com/v5/tlssmssvr/pullstatus4mobile";
 
-    public SmsMobileStausPuller(int appid, String appkey) {
+    public SmsMobileStatusPuller(int appid, String appkey) {
         super(appid, appkey, new DefaultHTTPClient());
     }
 
-    public SmsMobileStausPuller(int appid, String appkey, HTTPClient httpclient) {
+    public SmsMobileStatusPuller(int appid, String appkey, HTTPClient httpclient) {
         super(appid, appkey, httpclient);
     }
 

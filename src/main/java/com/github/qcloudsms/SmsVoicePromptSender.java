@@ -37,9 +37,9 @@ public class SmsVoicePromptSender extends SmsBase {
      * @param msg 语音通知消息内容
      * @param ext  "扩展字段，原样返回"
      * @return {@link}SmsVoicePromptSenderResult
-     * @throws HTTPException
-     * @throws JSONException
-     * @throws IOException
+     * @throws HTTPException  http status exception
+     * @throws JSONException  json parse exception
+     * @throws IOException    network problem
      */
     public SmsVoicePromptSenderResult send(String nationCode, String phoneNumber, int prompttype,
         int playtimes, String msg, String ext)
@@ -54,7 +54,7 @@ public class SmsVoicePromptSender extends SmsBase {
             .put("playtimes", playtimes)
             .put("sig", SmsSenderUtil.calculateSignature(this.appkey, random, now, phoneNumber))
             .put("time", now)
-            .put("ext", ext);
+            .put("ext", Boolean.valueOf(ext) ? ext : "");
 
         HTTPRequest req = new HTTPRequest(HTTPMethod.POST, this.url)
             .addHeader("Conetent-Type", "application/json")

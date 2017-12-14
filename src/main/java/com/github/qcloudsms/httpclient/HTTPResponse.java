@@ -12,11 +12,11 @@ public class HTTPResponse {
     public HashMap<String, String> headers;
 
     public HTTPResponse() {
-        super();
+        this.headers = new HashMap<String, String>();
     }
 
     public HTTPResponse(final int statusCode) {
-        super();
+        this();
         this.statusCode = statusCode;
     }
 

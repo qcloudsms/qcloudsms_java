@@ -9,20 +9,19 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 
-
 public class SmsMultiSenderResult extends SmsResultBase {
 
     class Detail {
 
         public int result;
-        public String errMsg = "";
-        public String phoneNumber = "";
-        public String nationCode = "";
+        public String errmsg = "";
+        public String mobile = "";
+        public String nationcode = "";
         public String sid = "";
         public int fee;
 
         public String toString() {
-            String[] fields = {"result", "errMsg", "phoneNumber", "nationCode", "sid", "fee"};
+            String[] fields = {"result", "errmsg", "mobile", "nationcode", "sid", "fee"};
             return (new JSONObject(this, fields)).toString();
         }
 
@@ -32,8 +31,8 @@ public class SmsMultiSenderResult extends SmsResultBase {
             errMsg = json.getString("errmsg");
 
             if (result == 0) {
-                phoneNumber = json.getString("phoneNumber");
-                nationCode = json.getString("nationCode");
+                mobile = json.getString("mobile");
+                nationcode = json.getString("nationcode");
                 sid = json.getString("sid");
                 fee = json.getInt("fee");
             }
@@ -43,9 +42,15 @@ public class SmsMultiSenderResult extends SmsResultBase {
     }
 
     public int result;
-    public String errMsg = "";
-    public String ext = "";
+    public String errMsg;
+    public String ext;
     public ArrayList<Detail> details;
+
+    public SmsMultiSenderResult() {
+        this.errMsg = "";
+        this.ext = "";
+        this.details = new ArrayList<Detail>();
+    }
 
     @Override
     public SmsMultiSenderResult parseFromHTTPResponse(HTTPResponse response)

@@ -33,7 +33,7 @@ public class DefaultHTTPClient implements HTTPClient {
             .build();
         RequestBuilder reqBuilder = RequestBuilder.create(request.method.name())
             .setUri(uriBuilder.build())
-            .setEntity(new StringEntity(request.body))
+            .setEntity(new StringEntity(request.body, "UTF-8"))
             .setConfig(reqConfig);
         for (Map.Entry<String, String> entry: request.headers.entrySet()) {
             reqBuilder.setHeader(entry.getKey(), entry.getValue());

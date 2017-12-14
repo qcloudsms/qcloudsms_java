@@ -20,7 +20,7 @@ public abstract class SmsResultBase {
      *
      * @param response  HTTP response from api return
      * @return SmsResultbase
-     * @throws JSONException
+     * @throws JSONException  json parse exception
      */
     public abstract SmsResultBase parseFromHTTPResponse(HTTPResponse response)
         throws JSONException;
@@ -30,7 +30,7 @@ public abstract class SmsResultBase {
      *
      * @param response  HTTP response
      * @return JSONObject
-     * @throws JSONException
+     * @throws JSONException  json parse exception
      */
     public JSONObject parseToJson(HTTPResponse response) throws JSONException {
         // Set raw response
