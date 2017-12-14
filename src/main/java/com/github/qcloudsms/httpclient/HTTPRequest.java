@@ -47,13 +47,13 @@ public class HTTPRequest {
         return this;
     }
 
-    public HTTPRequest setConnectionTimeout(int seconds) {
-        connectTimeout = seconds;
+    public HTTPRequest setConnectionTimeout(int connectionTimeout) {
+        this.connectTimeout = connectionTimeout;
         return this;
     }
 
-    public HTTPRequest setRequestTimeout(int seconds) {
-        requestTimeout = seconds;
+    public HTTPRequest setRequestTimeout(int requestTimeout) {
+        this.requestTimeout = requestTimeout;
         return this;
     }
 }
