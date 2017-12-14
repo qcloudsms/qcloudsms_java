@@ -9,10 +9,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class SmsSenderUtil {
 
-    public static String md5(String rawString) {
-        return DigestUtils.sha256Hex(rawString);
-    }
-
     public static long getCurrentTime() {
         return System.currentTimeMillis() / 1000;
     }
