@@ -34,10 +34,14 @@ public class SmsMobileStatusPuller extends SmsBase {
         long random = SmsSenderUtil.getRandom();
         long now = SmsSenderUtil.getCurrentTime();
         JSONObject body = new JSONObject();
-        body.put("sign", SmsSenderUtil.calculateSignature(this.appkey, random, now))
-            .put("time", now)
+        body.put("sig", SmsSenderUtil.calculateSignature(this.appkey, random, now))
             .put("type", type)
-            .put("max", max);
+            .put("time", now)
+            .put("max", max)
+            .put("begin_time", beginTime)
+            .put("end_time", endTime)
+            .put("nationcode", nationCode)
+            .put("mobile", mobile);
 
         HTTPRequest req = new HTTPRequest(HTTPMethod.POST, this.url)
             .addHeader("Conetent-Type", "application/json")

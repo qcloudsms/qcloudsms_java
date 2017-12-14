@@ -42,7 +42,7 @@ qcloudsms可以采用多种方式进行安装，我们提供以下三种方法�
 ```xml
 <dependency>
   <groupId>com.github.qcloudsms</groupId>
-  <artifactId>sms</artifactId>
+  <artifactId>qcloudsms</artifactId>
   <version>1.0.0</version>
 </dependency>
 ```
@@ -162,7 +162,7 @@ import com.github.qcloudsms.SmsMultiSenderResult;
 try {
     String[] params = {"5678"};
     SmsMultiSender msender = new SmsMultiSender(appid, appkey);
-    SmsMultiSenderResult result =  msender..sendWithParam("86", phoneNumbers,
+    SmsMultiSenderResult result =  msender.sendWithParam("86", phoneNumbers,
         templateId, params, "", "", "");
     System.out.print(result);
 } catch (HTTPException e) {
@@ -287,3 +287,89 @@ try {
 - **发送国际短信**
 
 国际短信参考单发短信
+
+
+### 使用连接池
+
+多个线程可以用一个连接池发送API请求，多线程并发单发短信示例如下:
+
+```java
+import com.github.qcloudsms.SmsSingleSender;
+import com.github.qcloudsms.SmsSingleSenderResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import com.github.qcloudsms.httpclient.PoolingHTTPClient;
+import org.json.JSONException;
+
+import java.io.IOException;
+
+
+class SmsThread extends Thread {
+
+    private final SmsSingleSender sender;
+    private final String nationCode;
+    private final String phoneNumber;
+    private final String msg;
+
+    public SmsThread(SmsSingleSender sender, String nationCode, String phoneNumber, String msg) {
+        this.sender = sender;
+        this.nationCode = nationCode;
+        this.phoneNumber = phoneNumber;
+        this.msg = msg;
+    }
+
+    @Override
+    public void run() {
+        try {
+            SmsSingleSenderResult result = sender.send(0, nationCode, phoneNumber, msg, "", "");
+            System.out.println(result);
+        } catch (HTTPException e) {
+            // HTTP响应码错误
+            e.printStackTrace();
+        } catch (JSONException e) {
+            // json解析错误
+            e.printStackTrace();
+        } catch (IOException e) {
+            // 网路IO错误
+            e.printStackTrace();
+        }
+    }
+}
+
+public class SmsTest {
+
+    public static void main(String[] args) {
+
+        int appid = 122333333;
+        String appkey = "9ff91d87c2cd7cd0ea762f141975d1df37481d48700d70ac37470aefc60f9bad";
+        String[] phoneNumbers = {
+            "21212313123", "12345678902", "12345678903",
+            "21212313124", "12345678903", "12345678904",
+            "21212313125", "12345678904", "12345678905",
+            "21212313126", "12345678905", "12345678906",
+            "21212313127", "12345678906", "12345678907",
+        };
+
+        // 创建一个连接池http client, 并设置最大连接量为10
+        PoolingHTTPClient httpclient = new PoolingHTTPClient(10);
+
+        // 创建SmsSingleSender时传入连接池http client
+        SmsSingleSender ssender = new SmsSingleSender(appid, appkey, httpclient);
+
+        // 创建线程
+        SmsThread[] threads = new SmsThread[phoneNumbers.length];
+        for (int i = 0; i < phoneNumbers.length; i++) {
+            threads[i] = new SmsThread(ssender, "86", phoneNumbers[0], "您验证码是：5678");
+        }
+
+        // 运行线程
+        for (int i = 0; i < threads.length; i++) {
+            threads[i].start();
+        }
+
+        // join线程
+        for (int i = 0; i < threads.length; i++) {
+            threads[i].join();
+        }
+    }
+}
+```
