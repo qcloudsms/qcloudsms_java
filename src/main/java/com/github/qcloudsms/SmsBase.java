@@ -16,7 +16,7 @@ public class SmsBase {
      *
      * @param appid   sdk appid
      * @param appkey  sdk appkey
-     * @param appkey  com.github.qcloudsms.httpclient.HTTPClient instance
+     * @param httpclient  http client
      */
     public SmsBase(int appid, String appkey, HTTPClient httpclient) {
         this.appid = appid;
@@ -25,7 +25,7 @@ public class SmsBase {
     }
 
     /**
-     * SmsBase constructor
+     * Handle http status error
      *
      * @param response   raw http response
      * @return response  raw http response

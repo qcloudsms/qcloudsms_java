@@ -16,7 +16,7 @@ public abstract class SmsResultBase {
     protected HTTPResponse response;
 
     /**
-     * Parse result from HTTPResponse instance
+     * Parse result from HTTPResponse
      *
      * @param response  HTTP response from api return
      * @return SmsResultbase
@@ -26,7 +26,7 @@ public abstract class SmsResultBase {
         throws JSONException;
 
     /**
-     * Parse HTTP response to json
+     * Parse HTTP response to JSONObject
      *
      * @param response  HTTP response
      * @return JSONObject

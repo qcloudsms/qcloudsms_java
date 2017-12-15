@@ -57,10 +57,9 @@ public class PoolingHTTPClient implements HTTPClient {
 
         // Fetch http response
         HttpClientContext ctx = HttpClientContext.create();
-        // Throw IOException
         CloseableHttpResponse response = client.execute(reqBuilder.build(), ctx);
         try {
-            // Throw IOException
+            // May throw IOException
             HTTPResponse res = new HTTPResponse()
                 .setRequest(request)
                 .setStatusCode(response.getStatusLine().getStatusCode())

@@ -46,7 +46,7 @@ public class DefaultHTTPClient implements HTTPClient {
         try {
             CloseableHttpResponse response = client.execute(reqBuilder.build());
             try {
-                // Throw IOException
+                // May throw IOException
                 HTTPResponse res = new HTTPResponse()
                     .setRequest(request)
                     .setStatusCode(response.getStatusLine().getStatusCode())
@@ -55,6 +55,7 @@ public class DefaultHTTPClient implements HTTPClient {
                 for (Header header: response.getAllHeaders()) {
                     res.addHeader(header.getName(), header.getValue());
                 }
+
                 return res;
             } finally {
                 response.close();

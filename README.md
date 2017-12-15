@@ -349,7 +349,7 @@ public class SmsTest {
             "21212313127", "12345678906", "12345678907",
         };
 
-        // 创建一个连接池http client, 并设置最大连接量为10
+        // 创建一个连接池httpclient, 并设置最大连接量为10
         PoolingHTTPClient httpclient = new PoolingHTTPClient(10);
 
         // 创建SmsSingleSender时传入连接池http client
@@ -370,6 +370,9 @@ public class SmsTest {
         for (int i = 0; i < threads.length; i++) {
             threads[i].join();
         }
+
+        // 关闭连接池httpclient
+        httpclient.close();
     }
 }
 ```
