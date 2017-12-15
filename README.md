@@ -376,3 +376,51 @@ public class SmsTest {
     }
 }
 ```
+
+### 使用自定义HTTP client实现
+
+如果有需要使用自定义的HTTP client实现，只需要实现`import com.github.qcloudsms.httpclient.HTTPClient`接口，并在构造API对象时传入自定义HTTP client即可, 一个参考示例如下：
+
+```java
+import com.github.qcloudsms.httpclient.HTTPClient;
+import com.github.qcloudsms.httpclient.HTTPRequest;
+import com.github.qcloudsms.httpclient.HTTPResponse;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+// import com.example.httpclient.MyHTTPClient
+// import com.exmaple.httpclient.MyHTTPRequest
+// import com.example.httpclient.MyHTTPresponse
+
+public class CustomHTTPClient implements HTTPClient {
+
+    public HTTPResponse fetch(HTTPRequest request) throws IOException, URISyntaxException {
+        // 1. 创建自定义HTTP request
+        // MyHTTPrequest req = MyHTTPRequest.build(request)
+
+        // 2. 创建自定义HTTP cleint
+        // MyHTTPClient client = new MyHTTPClient();
+
+        // 3. 使用自定义HTTP client获取HTTP响应
+        // MyHTTPResponse response = client.fetch(req);
+
+        // 4. 转换HTTP响应到HTTPResponse
+        // HTTPResponse res = transformToHTTPResponse(response);
+
+        // 5. 返回HTTPResponse实例
+        // return res;
+    }
+
+    public void close() {
+        // 如果需要关闭必要资源
+    }
+}
+
+// 创建自定义HTTP client
+CustomHTTPClient httpclient = new CustomHTTPClient(10);
+// 构造API对象时传入自定义HTTP client
+SmsSingleSender ssender = new SmsSingleSender(appid, appkey, httpclient);
+```
+
+> `Note`: 注意上面的这个示例代码只作参考，无法直接编译和运行，需要作相应修改。
