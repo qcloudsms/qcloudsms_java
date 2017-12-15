@@ -358,7 +358,7 @@ public class SmsTest {
         // 创建线程
         SmsThread[] threads = new SmsThread[phoneNumbers.length];
         for (int i = 0; i < phoneNumbers.length; i++) {
-            threads[i] = new SmsThread(ssender, "86", phoneNumbers[0], "您验证码是：5678");
+            threads[i] = new SmsThread(ssender, "86", phoneNumbers[i], "您验证码是：5678");
         }
 
         // 运行线程
