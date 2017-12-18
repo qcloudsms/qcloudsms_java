@@ -54,11 +54,11 @@
 
 ### 安装
 
-qcloudsms可以采用多种方式进行安装，我们提供以下三种方法供用户使用：
+qcloudsms_java可以采用多种方式进行安装，我们提供以下三种方法供用户使用：
 
 #### maven
 
-要使用qcloudsms功能，需要在pom.xml中添加如下依赖
+要使用qcloudsms_java功能，需要在pom.xml中添加如下依赖：
 
 ```xml
 <dependency>
@@ -234,7 +234,7 @@ try {
 }
 ```
 
->`Note` 语音验证码发送只需提供验证码数字，例如在msg=“5678”，您收到的语音通知为“您的语音验证码是5678”，如需自定义内容，可以使用语音通知。
+> `Note` 语音验证码发送只需提供验证码数字，例如在msg=“5678”，您收到的语音通知为“您的语音验证码是5678”，如需自定义内容，可以使用语音通知。
 
 - **发送语音通知**
 
@@ -339,7 +339,7 @@ class SmsThread extends Thread {
 
     private final SmsSingleSender sender;
     private final String nationCode;
-    private foinal String phoneNumber;
+    private final String phoneNumber;
     private final String msg;
 
     public SmsThread(SmsSingleSender sender, String nationCode, String phoneNumber, String msg) {
@@ -411,7 +411,7 @@ public class SmsTest {
 
 ### 使用自定义HTTP client实现
 
-如果有需要使用自定义的HTTP client实现，只需要实现`com.github.qcloudsms.httpclient.HTTPClient`接口，并在构造API对象时传入自定义HTTP client即可， 一个参考示例如下：
+如果需要使用自定义的HTTP client实现，只需实现`com.github.qcloudsms.httpclient.HTTPClient`接口，并在构造API对象时传入自定义HTTP client即可，一个参考示例如下：
 
 ```java
 import com.github.qcloudsms.httpclient.HTTPClient;
@@ -424,6 +424,7 @@ import java.net.URISyntaxException;
 // import com.example.httpclient.MyHTTPClient
 // import com.exmaple.httpclient.MyHTTPRequest
 // import com.example.httpclient.MyHTTPresponse
+
 
 public class CustomHTTPClient implements HTTPClient {
 
