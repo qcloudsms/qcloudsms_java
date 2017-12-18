@@ -1,42 +1,62 @@
 腾讯云短信 Java SDK
 ===
 
+## 腾讯短信服务
 
-# Overview
+目前`腾讯云短信`为客户提供`国内短信`、`国内语音`和`海外短信`三大服务，腾讯云短信SDK支持以下操作：
 
-> 目前腾讯云短信为客户提供国内短信、海外短信和语音通知三大服务。
+### 国内短信
 
-> 国内短信提供单发、群发、带模板ID单发、带模板ID群发以及短信回执与回复拉取。
+国内短信支持操作：
 
-> 海外短信和国内短信使用同一接口，只需替换相应的国家码与手机号码，每次请求群发接口手机号码需全部为国内或者海外手机号码。
+- 单发短信
+- 指定模板单发短信
+- 群发短信
+- 指定模板群发短信
+- 拉取短信回执和短信回复状态
 
-> 语音通知目前支持语音验证码和语音通知功能。
+### 海外短信
 
+海外短信支持操作：
 
-# Getting Start
+- 单发短信
+- 指定模板单发短信
+- 群发短信
+- 指定模板群发短信
+- 拉取短信回执和短信回复状态
 
-## 准备
+> `Note` 海外短信和国内短信使用同一接口，只需替换相应的国家码与手机号码，每次请求群发接口手机号码需全部为国内或者海外手机号码。
+
+### 语音通知
+
+语音通知支持操作：
+
+- 发送语音验证码
+- 发送语音通知
+
+## 开发
+
+### 准备
 
 在开始开发云短信应用之前，需要准备如下信息:
 
-- [ ] 获取云短信应用SDK AppID和AppKey
+- [x] 获取SDK AppID和AppKey
 
-> 云短信应用SDK AppID和AppKey可在 [短信控制台](https://console.cloud.tencent.com/sms) 的应用信息里获取，如您尚未添加应用，请到 [短信控制台](https://console.cloud.tencent.com/sms) 中添加应用。
+云短信应用SDK `AppID`和`AppKey`可在[短信控制台](https://console.cloud.tencent.com/sms)的应用信息里获取，如您尚未添加应用，请到[短信控制台](https://console.cloud.tencent.com/sms)中添加应用。
 
-- [ ] 申请签名
+- [x] 申请签名
 
-> 一个完整的短信由短信签名和短信正文内容两部分组成，短信签名须申请和审核，短信签名可在 [短信控制台](https://console.cloud.tencent.com/sms) 的相应服务模块 *内容配置* 中进行申请。
+一个完整的短信由短信`签名`和短信正文内容两部分组成，短信`签名`须申请和审核，`签名`可在[短信控制台](https://console.cloud.tencent.com/sms)的相应服务模块`内容配置`中进行申请。
 
-- [ ] 申请模板
+- [x] 申请模板
 
-> 同样短信或语音正文内容的模板须申请和审核，模板可在 [短信控制台](https://console.cloud.tencent.com/sms) 的相应服务模块 *内容配置* 中进行申请。
+同样短信或语音正文内容`模板`须申请和审核，`模板`可在[短信控制台](https://console.cloud.tencent.com/sms)的相应服务模块`内容配置`中进行申请。
 
+### 安装
 
-## 安装
+qcloudsms可以采用多种方式进行安装，我们提供以下三种方法供用户使用：
 
-qcloudsms可以采用多种方式进行安装，我们提供以下三种方法供用户使用:
-
-### maven
+#### maven
 
 要使用qcloudsms功能，需要在pom.xml中添加如下依赖
 
@@ -48,13 +68,13 @@ qcloudsms可以采用多种方式进行安装，我们提供以下三种方法�
 </dependency>
 ```
 
-### sbt
+#### sbt
 
 ```
 libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.0"
 ```
 
-### 其他
+#### 其他
 
 - 方法1
 
@@ -64,21 +84,24 @@ libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.0"
 
 将[JAR包](http://central.maven.org/maven2/com/github/qcloudsms/sms/0.9.2/qcloudsms-1.0.0.jar)直接引入到您的工程中。
 
->`Note`: 由于qcloudsms_java依赖四个依赖项目： [org.json](http://central.maven.org/maven2/org/json/json/20170516/json-20170516.jar) , [httpclient](http://central.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar), [httpcore](http://central.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.7/httpcore-4.4.7.jar), [httpmine](http://central.maven.org/maven2/org/apache/httpcomponents/httpmime/4.5.3/httpmime-4.5.3.jar) `采用方法1需要将以上四个jar包导入工程`。
+> `Note` 由于qcloudsms_java依赖四个依赖项目library： [org.json](http://central.maven.org/maven2/org/json/json/20170516/json-20170516.jar) , [httpclient](http://central.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar), [httpcore](http://central.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.7/httpcore-4.4.7.jar)和 [httpmine](http://central.maven.org/maven2/org/apache/httpcomponents/httpmime/4.5.3/httpmime-4.5.3.jar) 采用方法1需要将以上四个jar包导入工程。
 
-## 用法
+### 用法
 
-> 若您对接口存在疑问，可以查阅[开发指南](https://cloud.tencent.com/document/product/382/5808)和[API文档](https://qcloudsms.github.io/qcloudsms_java/)。
+> 若您对接口存在疑问，可以查阅 [开发指南](https://cloud.tencent.com/document/product/382/5808) 和 [API文档](https://qcloudsms.github.io/qcloudsms_java/)。
 
 - **准备必要参数**
 
 ```java
-// 短信应用Sdk AppID
+// 短信应用SDK AppID
 int appid = 122333333;
-// 短信应用Sdk AppKey
+
+// 短信应用SDK AppKey
 String appkey = "9ff91d87c2cd7cd0ea762f141975d1df37481d48700d70ac37470aefc60f9bad";
+
 // 需要发送短信的手机号码
 String[] phoneNumbers = {"21212313123", "12345678902", "12345678903"};
+
 // 短信模板ID，需要在短信应用中申请
 int templateId = 7839; // NOTE: 这里的模板ID`7839`只是一个示例，真实的模板ID需要在短信控制台中申请
 ```
@@ -106,8 +129,9 @@ try {
 }
 ```
 
-> `Note`: 发送短信没有指定模板ID时，发送的内容需要与已审核通过的模板内容相匹配，才可能下发成功，否则返回失败。
-> `Note`: 如需发送海外短信，同样可以使用此接口，只需将国家码"86"改写成对应国家码号。
+> `Note` 如需发送海外短信，同样可以使用此接口，只需将国家码 `86` 改写成对应国家码号。
+> `Note` 无论单发/群发短信还是指定模板ID单发/群发短信都需要从控制台中申请模板并且模板已经审核通过，才可能下发成功，否则返回失败。
+
 
 - **指定模板ID单发短信**
 
@@ -133,7 +157,7 @@ try {
 }
 ```
 
-> `Note:`无论单发短信还是指定模板ID单发短信都需要从控制台中申请模板并且模板已经审核通过，才可能下发成功，否则返回失败。
+> `Note` 无论单发短信还是指定模板ID单发短信都需要从控制台中申请模板并且模板已经审核通过，才可能下发成功，否则返回失败。
 
 - **群发**
 
@@ -157,6 +181,9 @@ try {
     e.printStackTrace();
 }
 ```
+
+> `Note` 无论单发/群发短信还是指定模板ID单发/群发短信都需要从控制台中申请模板并且模板已经审核通过，才可能下发成功，否则返回失败。
+
 - **指定模板ID群发**
 
 ```java
@@ -180,7 +207,9 @@ try {
     e.printStackTrace();
 }
 ```
-> `Note: `群发一次请求最多支持200个号码，如有对号码数量有特殊需求请联系腾讯云短信技术支持(QQ:3012203387)。
+
+> `Note` 群发一次请求最多支持200个号码，如有对号码数量有特殊需求请联系腾讯云短信技术支持(QQ:3012203387)。
+> `Note` 无论单发/群发短信还是指定模板ID单发/群发短信都需要从控制台中申请模板并且模板已经审核通过，才可能下发成功，否则返回失败。
 
 - **发送语音验证码**
 
@@ -205,7 +234,7 @@ try {
 }
 ```
 
->`Note`: 语音验证码发送只需提供验证码数字，例如在msg=“5678”，您收到的语音通知为“您的语音验证码是5678”，如需自定义内容，可以使用语音通知。
+>`Note` 语音验证码发送只需提供验证码数字，例如在msg=“5678”，您收到的语音通知为“您的语音验证码是5678”，如需自定义内容，可以使用语音通知。
 
 - **发送语音通知**
 
@@ -258,7 +287,7 @@ try {
 }
 ```
 
-> `Note:` 短信拉取功能需要联系腾讯云短信技术支持(QQ:3012203387)，量大客户可以使用此功能批量拉取，其他客户不建议使用。
+> `Note` 短信拉取功能需要联系腾讯云短信技术支持(QQ:3012203387)，量大客户可以使用此功能批量拉取，其他客户不建议使用。
 
 - **拉取单个手机短信状态**
 
@@ -290,12 +319,11 @@ try {
 
 - **发送国际短信**
 
-国际短信参考单发短信
+国际短信发送可以参考单发短信。
 
+#### 使用连接池
 
-### 使用连接池
-
-多个线程可以用一个连接池发送API请求，多线程并发单发短信示例如下:
+多个线程可以共用一个连接池发送API请求，多线程并发单发短信示例如下：
 
 ```java
 import com.github.qcloudsms.SmsSingleSender;
@@ -311,7 +339,7 @@ class SmsThread extends Thread {
 
     private final SmsSingleSender sender;
     private final String nationCode;
-    private final String phoneNumber;
+    private foinal String phoneNumber;
     private final String msg;
 
     public SmsThread(SmsSingleSender sender, String nationCode, String phoneNumber, String msg) {
@@ -383,7 +411,7 @@ public class SmsTest {
 
 ### 使用自定义HTTP client实现
 
-如果有需要使用自定义的HTTP client实现，只需要实现`import com.github.qcloudsms.httpclient.HTTPClient`接口，并在构造API对象时传入自定义HTTP client即可, 一个参考示例如下：
+如果有需要使用自定义的HTTP client实现，只需要实现`com.github.qcloudsms.httpclient.HTTPClient`接口，并在构造API对象时传入自定义HTTP client即可， 一个参考示例如下：
 
 ```java
 import com.github.qcloudsms.httpclient.HTTPClient;
@@ -427,4 +455,4 @@ CustomHTTPClient httpclient = new CustomHTTPClient(10);
 SmsSingleSender ssender = new SmsSingleSender(appid, appkey, httpclient);
 ```
 
-> `Note`: 注意上面的这个示例代码只作参考，无法直接编译和运行，需要作相应修改。
+> `Note` 注意上面的这个示例代码只作参考，无法直接编译和运行，需要作相应修改。
