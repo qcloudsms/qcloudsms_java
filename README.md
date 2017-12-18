@@ -17,19 +17,20 @@
 
 ## 准备
 
-- [ ] 申请APPID以及APPKey
+在开始开发云短信应用之前，需要准备如下信息:
 
-> 在开始本教程之前，您需要先获取APPID和APPkey,如您尚未申请，请到https://console.qcloud.com/sms/smslist 中添加应用。应用添加成功后您将获得APPID以及APPKey,注意APPID是以14xxxxx开头。
+- [ ] 获取云短信应用SDK AppID和AppKey
+
+> 云短信应用SDK AppID和AppKey可在 [短信控制台](https://console.cloud.tencent.com/sms) 的应用信息里获取，如您尚未添加应用，请到 [短信控制台](https://console.cloud.tencent.com/sms) 中添加应用。
 
 - [ ] 申请签名
 
-> 下发短信必须携带签名，在相应服务模块 *短信内容配置*  中进行申请。
+> 一个完整的短信由短信签名和短信正文内容两部分组成，短信签名须申请和审核，短信签名可在 [短信控制台](https://console.cloud.tencent.com/sms) 的相应服务模块 *内容配置* 中进行申请。
 
 - [ ] 申请模板
 
-> 下发短信内容必须经过审核，在相应服务 *短信内容配置* 中进行申请。
+> 同样短信或语音正文内容的模板须申请和审核，模板可在 [短信控制台](https://console.cloud.tencent.com/sms) 的相应服务模块 *内容配置* 中进行申请。
 
-完成以上三项便可开始代码开发。
 
 ## 安装
 
@@ -61,22 +62,25 @@ libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.0"
 
 - 方法2
 
- 将[JAR包]( http://central.maven.org/maven2/com/github/qcloudsms/sms/0.9.2/qcloudsms-1.0.0.jar)直接引入到您的工程中。
+将[JAR包](http://central.maven.org/maven2/com/github/qcloudsms/sms/0.9.2/qcloudsms-1.0.0.jar)直接引入到您的工程中。
 
->`Note`: 由于qcloudsms中需要使用以下四个依赖项目 [org.json](http://central.maven.org/maven2/org/json/json/20170516/json-20170516.jar) , [httpclient](http://central.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar), [httpcore](http://central.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.7/httpcore-4.4.7.jar), [httpmine](http://central.maven.org/maven2/org/apache/httpcomponents/httpmime/4.5.3/httpmime-4.5.3.jar)
-`采用方法1，2都需要将以上四个jar包导入工程`。
+>`Note`: 由于qcloudsms_java依赖四个依赖项目： [org.json](http://central.maven.org/maven2/org/json/json/20170516/json-20170516.jar) , [httpclient](http://central.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar), [httpcore](http://central.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.7/httpcore-4.4.7.jar), [httpmine](http://central.maven.org/maven2/org/apache/httpcomponents/httpmime/4.5.3/httpmime-4.5.3.jar) `采用方法1需要将以上四个jar包导入工程`。
 
 ## 用法
 
-> 若您对接口存在疑问，可以查阅[API开发指南](https://cloud.tencent.com/document/product/382/5808)和[API文档](https://qcloudsms.github.io/qcloudsms_java/)。
+> 若您对接口存在疑问，可以查阅[开发指南](https://cloud.tencent.com/document/product/382/5808)和[API文档](https://qcloudsms.github.io/qcloudsms_java/)。
 
 - **准备必要参数**
 
 ```java
+// 短信应用Sdk AppID
 int appid = 122333333;
+// 短信应用Sdk AppKey
 String appkey = "9ff91d87c2cd7cd0ea762f141975d1df37481d48700d70ac37470aefc60f9bad";
+// 需要发送短信的手机号码
 String[] phoneNumbers = {"21212313123", "12345678902", "12345678903"};
-int templateId = 7839;  // 模板id需要从在相应服务 *短信内容配置* 中进行申请
+// 短信模板ID，需要在短信应用中申请
+int templateId = 7839; // NOTE: 这里的模板ID`7839`只是一个示例，真实的模板ID需要在短信控制台中申请
 ```
 
 - **单发短信**
