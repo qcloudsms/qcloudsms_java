@@ -111,6 +111,10 @@ int templateId = 7839; // NOTE: 这里的模板ID`7839`只是一个示例，真�
 ```java
 import com.github.qcloudsms.SmsSingleSender;
 import com.github.qcloudsms.SmsSingleSenderResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 try {
     SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
@@ -138,6 +142,10 @@ try {
 ```java
 import com.github.qcloudsms.SmsSingleSender;
 import com.github.qcloudsms.SmsSingleSenderResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 try {
     String[] params = {"5678"};
@@ -164,6 +172,10 @@ try {
 ```java
 import com.github.qcloudsms.SmsMultiSender;
 import com.github.qcloudsms.SmsMultiSenderResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 try {
     SmsMultiSender msender = new SmsMultiSender(appid, appkey);
@@ -189,6 +201,10 @@ try {
 ```java
 import com.github.qcloudsms.SmsMultiSender;
 import com.github.qcloudsms.SmsMultiSenderResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 try {
     String[] params = {"5678"};
@@ -216,6 +232,10 @@ try {
 ```java
 import com.github.qcloudsms.SmsVoiceVerifyCodeSender;
 import com.github.qcloudsms.SmsVoiceVerifyCodeSenderResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 try {
     SmsVoiceVerifyCodeSender vvcsender = new SmsVoiceVerifyCodeSender(appid,appkey);
@@ -241,6 +261,10 @@ try {
 ```java
 import com.github.qcloudsms.SmsVoicePromptSender;
 import com.github.qcloudsms.SmsVoicePromptSenderResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 try {
     SmsVoicePromptSender vpsender = new SmsVoicePromptSender(appid, appkey);
@@ -265,6 +289,10 @@ try {
 import com.github.qcloudsms.SmsStatusPuller;
 import com.github.qcloudsms.SmsStatusPullCallbackResult;
 import com.github.qcloudsms.SmsStatusPullReplyResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 try {
     SmsStatusPuller spuller = new SmsStatusPuller(appid, appkey);
@@ -295,6 +323,10 @@ try {
 import com.github.qcloudsms.SmsMobileStatusPuller;
 import com.github.qcloudsms.SmsStatusPullCallbackResult;
 import com.github.qcloudsms.SmsStatusPullReplyResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 try {
     SmsMobileStatusPuller mspuller = new SmsMobileStatusPuller(appid, appkey);
