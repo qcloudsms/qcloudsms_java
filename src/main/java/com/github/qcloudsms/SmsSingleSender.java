@@ -56,7 +56,7 @@ public class SmsSingleSender extends SmsBase {
             .put("sig", SmsSenderUtil.calculateSignature(this.appkey, random, now, phoneNumber))
             .put("time", now)
             .put("extend", Boolean.valueOf(extend) ? extend : "")
-            .put("ext", Boolean.valueOf(ext) ? extend : "");
+            .put("ext", Boolean.valueOf(ext) ? ext : "");
 
         HTTPRequest req = new HTTPRequest(HTTPMethod.POST, this.url)
             .addHeader("Conetent-Type", "application/json")
