@@ -12,13 +12,13 @@ import java.util.ArrayList;
 public class SmsStatusPullCallbackResult extends SmsResultBase {
 
     public class Callback {
-        String user_receive_time;
-        String nationcode;
-        String mobile;
-        String report_status;
-        String errmsg;
-        String description;
-        String sid;
+        public String user_receive_time;
+        public String nationcode;
+        public String mobile;
+        public String report_status;
+        public String errmsg;
+        public String description;
+        public String sid;
 
         @Override
         public String toString() {
@@ -44,10 +44,10 @@ public class SmsStatusPullCallbackResult extends SmsResultBase {
         }
     }
 
-    int result;
-    String errMsg;
-    int count;
-    ArrayList<Callback> callbacks;
+    public int result;
+    public String errMsg;
+    public int count;
+    public ArrayList<Callback> callbacks;
 
     public SmsStatusPullCallbackResult() {
         this.errMsg = "";
