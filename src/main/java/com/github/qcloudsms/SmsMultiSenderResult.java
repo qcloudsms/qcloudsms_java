@@ -28,7 +28,7 @@ public class SmsMultiSenderResult extends SmsResultBase {
         public Detail parse(JSONObject json) throws JSONException {
 
             result = json.getInt("result");
-            errMsg = json.getString("errmsg");
+            errmsg = json.getString("errmsg");
 
             if (result == 0) {
                 mobile = json.getString("mobile");
