@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class SmsMultiSenderResult extends SmsResultBase {
 
-    class Detail {
+    public class Detail {
 
         public int result;
         public String errmsg = "";
