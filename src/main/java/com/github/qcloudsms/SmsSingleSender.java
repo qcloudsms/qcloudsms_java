@@ -13,6 +13,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class SmsSingleSender extends SmsBase {
@@ -133,5 +134,13 @@ public class SmsSingleSender extends SmsBase {
         } catch(URISyntaxException e) {
             throw new RuntimeException("API url has been modified, current url: " + url);
         }
+    }
+
+    public SmsSingleSenderResult sendWithParam(String nationCode, String phoneNumber, int templateId,
+        String[] params, String sign, String extend, String ext)
+            throws HTTPException, JSONException, IOException {
+
+        return sendWithParam(nationCode, phoneNumber, templateId,
+            new ArrayList<String>(Arrays.asList(params)), sign, extend, ext);
     }
 }
