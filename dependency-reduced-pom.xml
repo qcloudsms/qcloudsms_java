@@ -3,9 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.qcloudsms</groupId>
   <artifactId>sms</artifactId>
-  <name>qcloud sms java sdk</name>
-  <version>0.0.1-SNAPSHOT</version>
-  <description>this Repository is responsible for qlcoud sms sdk</description>
+  <name>qcloudsms_java</name>
+  <version>1.0.0</version>
+  <description>qcloudsms Java SDK</description>
   <developers>
     <developer>
       <name>cubin lai</name>
@@ -88,4 +88,3 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>
-

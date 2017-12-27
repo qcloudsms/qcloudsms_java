@@ -1,276 +1,164 @@
 package com.github.qcloudsms;
 
+import com.github.qcloudsms.httpclient.HTTPClient;
+import com.github.qcloudsms.httpclient.HTTPException;
+import com.github.qcloudsms.httpclient.HTTPMethod;
+import com.github.qcloudsms.httpclient.HTTPRequest;
+import com.github.qcloudsms.httpclient.HTTPResponse;
+import com.github.qcloudsms.httpclient.DefaultHTTPClient;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.util.ArrayList;
 import org.json.JSONObject;
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
-public class SmsMultiSender {
-	int appid;
-	String appkey;
-    String url = "https://yun.tim.qq.com/v5/tlssmssvr/sendmultisms2";
+public class SmsMultiSender extends SmsBase {
 
-	SmsSenderUtil util = new SmsSenderUtil();
+    private String url = "https://yun.tim.qq.com/v5/tlssmssvr/sendmultisms2";
 
-	public SmsMultiSender(int appid, String appkey) throws Exception {
-		this.appid = appid;
-		this.appkey = appkey;
-	}
+    public SmsMultiSender(int appid, String appkey) {
+        super(appid, appkey, new DefaultHTTPClient());
+    }
 
-	/*
-	 * 普通群发，明确指定内容，如果有多个签名，请在内容中以【】的方式添加到信息内容中，否则系统将使用默认签名
-	 * 【注意】海外短信无群发功能
-	 * @param type 短信类型，0 为普通短信，1 营销短信
-	 * @param nationCode 国家码，如 86 为中国
-	 * @param phoneNumbers 不带国家码的手机号列表
-	 * @param msg 信息内容，必须与申请的模板格式一致，否则将返回错误
-	 * @param extend 扩展码，可填空
-	 * @param ext 服务端原样返回的参数，可填空
-	 * @return {@link}SmsMultiSenderResult
-	 *  @throws Excetion null
-	 */
-	public SmsMultiSenderResult send(
-			int type,
-			String nationCode,
-			ArrayList<String> phoneNumbers,
-			String msg,
-			String extend,
-			String ext) throws Exception {
-/*
-请求包体
-{
-    "tel": [
-        {
-            "nationcode": "86",
-            "mobile": "13788888888"
-        },
-        {
-            "nationcode": "86",
-            "mobile": "13788888889"
+    public SmsMultiSender(int appid, String appkey, HTTPClient httpclient) {
+        super(appid, appkey, httpclient);
+    }
+
+    /**
+     * 普通群发
+     *
+     * 明确指定内容，如果有多个签名，请在内容中以【】的方式添加到信息内容中，否则系统将使用默认签名
+     *
+     * @param type 短信类型，0 为普通短信，1 营销短信
+     * @param nationCode 国家码，如 86 为中国
+     * @param phoneNumbers 不带国家码的手机号列表
+     * @param msg 信息内容，必须与申请的模板格式一致，否则将返回错误
+     * @param extend 扩展码，可填空
+     * @param ext 服务端原样返回的参数，可填空
+     * @return {@link}SmsMultiSenderResult
+     * @throws HTTPException  http status exception
+     * @throws JSONException  json parse exception
+     * @throws IOException    network problem
+     */
+    public SmsMultiSenderResult send(int type, String nationCode, ArrayList<String> phoneNumbers,
+        String msg, String extend, String ext)
+            throws HTTPException, JSONException, IOException {
+
+        long random = SmsSenderUtil.getRandom();
+        long now = SmsSenderUtil.getCurrentTime();
+        JSONObject body = new JSONObject();
+        body.put("tel", toTel(nationCode, phoneNumbers))
+            .put("type", type)
+            .put("msg", msg)
+            .put("sig", SmsSenderUtil.calculateSignature(appkey, random, now, phoneNumbers))
+            .put("time", now)
+            .put("extend", Boolean.valueOf(extend) ? extend : "")
+            .put("ext", Boolean.valueOf(ext) ? ext : "");
+
+        HTTPRequest req = new HTTPRequest(HTTPMethod.POST, this.url)
+            .addHeader("Conetent-Type", "application/json")
+            .addQueryParameter("sdkappid", this.appid)
+            .addQueryParameter("random", random)
+            .setConnectionTimeout(60 * 1000)
+            .setRequestTimeout(60 * 1000)
+            .setBody(body.toString());
+
+        try {
+            // May throw IOException and URISyntaxexception
+            HTTPResponse res = httpclient.fetch(req);
+
+            // May throw HTTPException
+            handleError(res);
+
+            // May throw JSONException
+            return (new SmsMultiSenderResult()).parseFromHTTPResponse(res);
+        } catch(URISyntaxException e) {
+            throw new RuntimeException("API url has been modified, current url: " + url);
         }
-    ],
-    "type": 0,
-    "msg": "你的验证码是1234",
-    "sig": "fdba654e05bc0d15796713a1a1a2318c",
-    "time": 1479888540,
-    "extend": "",
-    "ext": ""
+    }
+
+    public SmsMultiSenderResult send(int type, String nationCode, String[] phoneNumbers,
+        String msg, String extend, String ext)
+            throws HTTPException, JSONException, IOException {
+
+        return send(type, nationCode, new ArrayList<String>(Arrays.asList(phoneNumbers)),
+                    msg, extend, ext);
+    }
+
+    /**
+     * 指定模板群发
+     *
+     * @param nationCode 国家码，如 86 为中国
+     * @param phoneNumbers 不带国家码的手机号列表
+     * @param templateId 模板 id
+     * @param params 模板参数列表
+     * @param sign 签名，如果填空，系统会使用默认签名
+     * @param extend 扩展码，可以填空
+     * @param ext 服务端原样返回的参数，可以填空
+     * @return {@link}SmsMultiSenderResult
+     * @throws HTTPException  http status exception
+     * @throws JSONException  json parse exception
+     * @throws IOException    network problem
+     */
+    public SmsMultiSenderResult sendWithParam(String nationCode, ArrayList<String> phoneNumbers,
+        int templateId, ArrayList<String> params, String sign, String extend, String ext)
+            throws HTTPException, JSONException, IOException {
+
+        long random = SmsSenderUtil.getRandom();
+        long now = SmsSenderUtil.getCurrentTime();
+        JSONObject body = new JSONObject()
+            .put("tel", toTel(nationCode, phoneNumbers))
+            .put("sign", sign)
+            .put("tpl_id", templateId)
+            .put("params", params)
+            .put("sig", SmsSenderUtil.calculateSignature(appkey, random, now, phoneNumbers))
+            .put("time", now)
+            .put("extend", Boolean.valueOf(extend) ? extend : "")
+            .put("ext", Boolean.valueOf(ext) ? ext : "");
+
+        HTTPRequest req = new HTTPRequest(HTTPMethod.POST, this.url)
+            .addHeader("Conetent-Type", "application/json")
+            .addQueryParameter("sdkappid", this.appid)
+            .addQueryParameter("random", random)
+            .setConnectionTimeout(60 * 1000)
+            .setRequestTimeout(60 * 1000)
+            .setBody(body.toString());
+
+        try {
+            // May throw IOException and URISyntaxexception
+            HTTPResponse res = httpclient.fetch(req);
+
+            // May throw HTTPException
+            handleError(res);
+
+            // May throw JSONException
+            return (new SmsMultiSenderResult()).parseFromHTTPResponse(res);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException("API url has been modified, current url: " + url);
+        }
+    }
+
+    public SmsMultiSenderResult sendWithParam(String nationCode, String[] phoneNumbers,
+        int templateId, String[] params, String sign, String extend, String ext)
+            throws HTTPException, JSONException, IOException {
+
+        return sendWithParam(nationCode, new ArrayList<String>(Arrays.asList(phoneNumbers)),
+                             templateId, new ArrayList<String>(Arrays.asList(params)),
+                             sign, extend, ext);
+    }
+
+    private ArrayList<JSONObject> toTel(String nationCode, ArrayList<String> phoneNumbers) {
+        ArrayList<JSONObject> phones = new ArrayList<JSONObject>();
+        for (String phoneNumber: phoneNumbers) {
+            JSONObject phone = new JSONObject();
+            phone.put("nationcode", nationCode);
+            phone.put("mobile", phoneNumber);
+            phones.add(phone);
+        }
+        return phones;
+    }
 }
-应答包体
-{
-    "result": 0,
-    "errmsg": "OK",
-    "ext": "",
-    "detail": [
-        {
-            "result": 0,
-            "errmsg": "OK",
-            "mobile": "13788888888",
-            "nationcode": "86",
-            "sid": "xxxxxxx",
-            "fee": 1
-        },
-        {
-            "result": 0,
-            "errmsg": "OK",
-            "mobile": "13788888889",
-            "nationcode": "86",
-            "sid": "xxxxxxx",
-            "fee": 1
-        }
-    ]
-}
-*/
-		// 校验 type 类型
-		if (0 != type && 1 != type) {
-			throw new Exception("type " + type + " error");
-		}
-
-		if (null == extend) {
-			extend = "";
-		}
-
-		if (null == ext) {
-			ext = "";
-		}
-
-		long random = util.getRandom();
-		long curTime = System.currentTimeMillis()/1000;
-
-		// 按照协议组织 post 请求包体
-		JSONObject data = new JSONObject();
-        data.put("tel", util.phoneNumbersToJSONArray(nationCode, phoneNumbers));
-        data.put("type", type);
-        data.put("msg", msg);
-        data.put("sig", util.calculateSig(appkey, random, msg, curTime, phoneNumbers));
-        data.put("time", curTime);
-        data.put("extend", extend);
-        data.put("ext", ext);
-
-		String wholeUrl = String.format("%s?sdkappid=%d&random=%d", url, appid, random);
-        HttpURLConnection conn = util.getPostHttpConn(wholeUrl);
-
-        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), "utf-8");
-        wr.write(data.toString());
-        wr.flush();
-
-        // 显示 POST 请求返回的内容
-        StringBuilder sb = new StringBuilder();
-        int httpRspCode = conn.getResponseCode();
-        SmsMultiSenderResult result;
-        if (httpRspCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            br.close();
-            JSONObject json = new JSONObject(sb.toString());
-            result = util.jsonToSmsMultiSenderResult(json);
-        } else {
-        	result = new SmsMultiSenderResult();
-        	result.result = httpRspCode;
-        	result.errMsg = "http error " + httpRspCode + " " + conn.getResponseMessage();
-        }
-
-        return result;
-	}
-
-	/*
-	 * 指定模板群发
-	 * 【注意】海外短信无群发功能
-	 * @param nationCode 国家码，如 86 为中国
-	 * @param phoneNumbers 不带国家码的手机号列表
-	 * @param templId 模板 id
-	 * @param params 模板参数列表
-	 * @param sign 签名，如果填空，系统会使用默认签名
-	 * @param extend 扩展码，可以填空
-	 * @param ext 服务端原样返回的参数，可以填空
-	 * @return {@link}SmsMultiSenderResult
-	 * @throws Exception
-	 */
-	public SmsMultiSenderResult sendWithParam(
-			String nationCode,
-			ArrayList<String> phoneNumbers,
-			int templId,
-			ArrayList<String> params,
-			String sign,
-			String extend,
-			String ext) throws Exception {
-/*
-请求包体
-{
-    "tel": [
-        {
-            "nationcode": "86",
-            "mobile": "13788888888"
-        },
-        {
-            "nationcode": "86",
-            "mobile": "13788888889"
-        }
-    ],
-    "sign": "腾讯云",
-    "tpl_id": 19,
-    "params": [
-        "验证码",
-        "1234",
-        "4"
-    ],
-    "sig": "fdba654e05bc0d15796713a1a1a2318c",
-    "time": 1479888540,
-    "extend": "",
-    "ext": ""
-}
-应答包体
-{
-    "result": 0,
-    "errmsg": "OK",
-    "ext": "",
-    "detail": [
-        {
-            "result": 0,
-            "errmsg": "OK",
-            "mobile": "13788888888",
-            "nationcode": "86",
-            "sid": "xxxxxxx",
-            "fee": 1
-        },
-        {
-            "result": 0,
-            "errmsg": "OK",
-            "mobile": "13788888889",
-            "nationcode": "86",
-            "sid": "xxxxxxx",
-            "fee": 1
-        }
-    ]
-}
-*/
-		if (null == nationCode || 0 == nationCode.length()) {
-			nationCode = "86";
-		}
-		if (0 == phoneNumbers.size()) {
-			throw new Exception("phoneNumbers size error");
-		}
-		if (null == params) {
-			params = new ArrayList<String>();
-		}
-		if (null == sign) {
-			sign = "";
-		}
-		if (null == extend) {
-			extend = "";
-		}
-		if (null == ext) {
-			ext = "";
-		}
-
-		long random = util.getRandom();
-		long curTime = System.currentTimeMillis()/1000;
-
-		// 按照协议组织 post 请求包体
-		JSONObject data = new JSONObject();
-        data.put("tel", util.phoneNumbersToJSONArray(nationCode, phoneNumbers));
-        data.put("sign", sign);
-        data.put("tpl_id", templId);
-        data.put("params", util.smsParamsToJSONArray(params));
-        data.put("sig", util.calculateSigForTempl(appkey, random, curTime, phoneNumbers));
-        data.put("time", curTime);
-        data.put("extend", extend);
-        data.put("ext", ext);
-
-		String wholeUrl = String.format("%s?sdkappid=%d&random=%d", url, appid, random);
-        HttpURLConnection conn = util.getPostHttpConn(wholeUrl);
-
-        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), "utf-8");
-        wr.write(data.toString());
-        wr.flush();
-
-        // 显示 POST 请求返回的内容
-        StringBuilder sb = new StringBuilder();
-        int httpRspCode = conn.getResponseCode();
-        SmsMultiSenderResult result;
-        if (httpRspCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            br.close();
-            JSONObject json = new JSONObject(sb.toString());
-            result = util.jsonToSmsMultiSenderResult(json);
-        } else {
-        	result = new SmsMultiSenderResult();
-        	result.result = httpRspCode;
-        	result.errMsg = "http error " + httpRspCode + " " + conn.getResponseMessage();
-        }
-
-        return result;
-	}
-}
-

@@ -1,62 +1,75 @@
 package com.github.qcloudsms;
 
+import com.github.qcloudsms.httpclient.HTTPResponse;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
-public class SmsMultiSenderResult {
-/*
-{
-    "result": 0,
-    "errmsg": "OK",
-    "ext": "",
-    "detail": [
-        {
-            "result": 0,
-            "errmsg": "OK",
-            "mobile": "13788888888",
-            "nationcode": "86",
-            "sid": "xxxxxxx",
-            "fee": 1
-        },
-        {
-            "result": 0,
-            "errmsg": "OK",
-            "mobile": "13788888889",
-            "nationcode": "86",
-            "sid": "xxxxxxx",
-            "fee": 1
+
+public class SmsMultiSenderResult extends SmsResultBase {
+
+    public class Detail {
+
+        public int result;
+        public String errmsg = "";
+        public String mobile = "";
+        public String nationcode = "";
+        public String sid = "";
+        public int fee;
+
+        public String toString() {
+            String[] fields = {"result", "errmsg", "mobile", "nationcode", "sid", "fee"};
+            return (new JSONObject(this, fields)).toString();
         }
-    ]
-}
- */
-	public class Detail {
-		public int result;
-		public String errMsg = "";
-		public String phoneNumber = "";
-		public String nationCode = "";
-		public String sid = "";
-		public int fee;
 
-		public String toString() {
-			if (0 == result) {
-				return String.format(
-						"Detail result %d\nerrMsg %s\nphoneNumber %s\nnationCode %s\nsid %s\nfee %d",
-						result, errMsg, phoneNumber, nationCode, sid, fee);
-			} else {
-				return String.format(
-						"result %d\nerrMsg %s\nphoneNumber %s\nnationCode %s",
-						result, errMsg, phoneNumber, nationCode);
-			}
-		}
-	}
+        public Detail parse(JSONObject json) throws JSONException {
 
-	public int result;
-	public String errMsg = "";
-	public String ext = "";
-	public ArrayList<Detail> details;
+            result = json.getInt("result");
+            errmsg = json.getString("errmsg");
 
-	public String toString() {
-		return String.format(
-				"SmsMultiSenderResult\nresult %d\nerrMsg %s\next %s\ndetails %s",
-				result, errMsg, ext, details);
-	}
+            if (result == 0) {
+                mobile = json.getString("mobile");
+                nationcode = json.getString("nationcode");
+                sid = json.getString("sid");
+                fee = json.getInt("fee");
+            }
+
+            return this;
+        }
+    }
+
+    public int result;
+    public String errMsg;
+    public String ext;
+    public ArrayList<Detail> details;
+
+    public SmsMultiSenderResult() {
+        this.errMsg = "";
+        this.ext = "";
+        this.details = new ArrayList<Detail>();
+    }
+
+    @Override
+    public SmsMultiSenderResult parseFromHTTPResponse(HTTPResponse response)
+            throws JSONException {
+
+        JSONObject json = parseToJson(response);
+        result = json.getInt("result");
+        errMsg = json.getString("errmsg");
+
+        if (result == 0) {
+            ext = json.getString("ext");
+            if (!json.isNull("detail")) {
+                JSONArray jsonDetail = json.getJSONArray("detail");
+                for (int i = 0; i < jsonDetail.length(); i++) {
+                    details.add((new Detail()).parse(jsonDetail.getJSONObject(i)));
+                }
+            }
+        }
+
+        return this;
+    }
 }

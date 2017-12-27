@@ -1,26 +1,35 @@
 package com.github.qcloudsms;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.util.ArrayList;
+import com.github.qcloudsms.httpclient.HTTPClient;
+import com.github.qcloudsms.httpclient.HTTPException;
+import com.github.qcloudsms.httpclient.HTTPMethod;
+import com.github.qcloudsms.httpclient.HTTPRequest;
+import com.github.qcloudsms.httpclient.HTTPResponse;
+import com.github.qcloudsms.httpclient.DefaultHTTPClient;
 
 import org.json.JSONObject;
+import org.json.JSONException;
 
-public class SmsVoicePromptSender {
-	int appid;
-	String appkey;
-    String url = "https://yun.tim.qq.com/v5/tlsvoicesvr/sendvoiceprompt";
-    SmsSenderUtil util = new SmsSenderUtil();
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+
+
+public class SmsVoicePromptSender extends SmsBase {
+
+    private String url = "https://yun.tim.qq.com/v5/tlsvoicesvr/sendvoiceprompt";
 
     public SmsVoicePromptSender(int appid, String appkey) {
-    	this.appid = appid;
-    	this.appkey = appkey;
+        super(appid, appkey, new DefaultHTTPClient());
+    }
+
+    public SmsVoicePromptSender(int appid, String appkey, HTTPClient httpclient) {
+        super(appid, appkey, httpclient);
     }
 
     /**
      * 发送语音短信
+     *
      * @param nationCode 国家码，如 86 为中国
      * @param phoneNumber 不带国家码的手机号
      * @param prompttype 类型，目前固定值为2
@@ -28,70 +37,45 @@ public class SmsVoicePromptSender {
      * @param msg 语音通知消息内容
      * @param ext  "扩展字段，原样返回"
      * @return {@link}SmsVoicePromptSenderResult
-     * @throws Exception "exception"
+     * @throws HTTPException  http status exception
+     * @throws JSONException  json parse exception
+     * @throws IOException    network problem
      */
-    public SmsVoicePromptSenderResult send(
-    		String nationCode,
-    		String phoneNumber,
-    		int prompttype,
-    		int playtimes,
-    		String msg,
-    		String ext) throws Exception {
+    public SmsVoicePromptSenderResult send(String nationCode, String phoneNumber, int prompttype,
+        int playtimes, String msg, String ext)
+            throws HTTPException, JSONException, IOException {
 
-		if (null == ext) {
-			ext = "";
-		}
+        long random = SmsSenderUtil.getRandom();
+        long now = SmsSenderUtil.getCurrentTime();
+        JSONObject body = new JSONObject()
+            .put("tel", (new JSONObject()).put("nationcode", nationCode).put("mobile", phoneNumber))
+            .put("prompttype", prompttype)
+            .put("promptfile", msg)
+            .put("playtimes", playtimes)
+            .put("sig", SmsSenderUtil.calculateSignature(this.appkey, random, now, phoneNumber))
+            .put("time", now)
+            .put("ext", Boolean.valueOf(ext) ? ext : "");
 
-        long random = util.getRandom();
-        long curTime = System.currentTimeMillis()/1000;
+        HTTPRequest req = new HTTPRequest(HTTPMethod.POST, this.url)
+            .addHeader("Conetent-Type", "application/json")
+            .addQueryParameter("sdkappid", this.appid)
+            .addQueryParameter("random", random)
+            .setConnectionTimeout(60 * 1000)
+            .setRequestTimeout(60 * 1000)
+            .setBody(body.toString());
 
-        ArrayList<String> phoneNumbers = new ArrayList<String>();
-    	phoneNumbers.add(phoneNumber);
-    	String sig = util.calculateSig(appkey, random, msg,curTime, phoneNumbers);
 
-		// 按照协议组织 post 请求包体
-		JSONObject data = new JSONObject();
+        try {
+            // May throw IOException and URISyntaxexception
+            HTTPResponse res = httpclient.fetch(req);
 
-        JSONObject tel = new JSONObject();
-        tel.put("nationcode", nationCode);
-        tel.put("mobile", phoneNumber);
+            // May throw HTTPException
+            handleError(res);
 
-        data.put("tel", tel);
-        data.put("prompttype", prompttype);
-        data.put("promptfile", msg);
-        data.put("playtimes", playtimes);
-        data.put("sig",sig);
-        data.put("time", curTime);
-        data.put("ext", ext);
-
-        // 与上面的 random 必须一致
-		String wholeUrl = String.format("%s?sdkappid=%d&random=%d", url, appid,random);
-        HttpURLConnection conn = util.getPostHttpConn(wholeUrl);
-
-        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), "utf-8");
-        System.out.println(data.toString());
-        wr.write(data.toString());
-        wr.flush();
-
-        // 显示 POST 请求返回的内容
-        StringBuilder sb = new StringBuilder();
-        int httpRspCode = conn.getResponseCode();
-        SmsVoicePromptSenderResult result;
-        if (httpRspCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            br.close();
-            JSONObject json = new JSONObject(sb.toString());
-            result = util.jsonToSmsVoicePromptSenderResult(json);
-        } else {
-        	result = new SmsVoicePromptSenderResult();
-        	result.result = httpRspCode;
-        	result.errmsg = "http error " + httpRspCode + " " + conn.getResponseMessage();
+            // May throw JSONException
+            return (new SmsVoicePromptSenderResult()).parseFromHTTPResponse(res);
+        } catch(URISyntaxException e) {
+            throw new RuntimeException("API url has been modified, current url: " + url);
         }
-
-        return result;
     }
 }
