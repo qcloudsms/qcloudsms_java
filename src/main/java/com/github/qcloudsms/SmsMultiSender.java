@@ -56,8 +56,8 @@ public class SmsMultiSender extends SmsBase {
             .put("msg", msg)
             .put("sig", SmsSenderUtil.calculateSignature(appkey, random, now, phoneNumbers))
             .put("time", now)
-            .put("extend", Boolean.valueOf(extend) ? extend : "")
-            .put("ext", Boolean.valueOf(ext) ? ext : "");
+            .put("extend", SmsSenderUtil.isNotEmpty(extend) ? extend : "")
+            .put("ext", SmsSenderUtil.isNotEmpty(ext) ? ext : "");
 
         HTTPRequest req = new HTTPRequest(HTTPMethod.POST, this.url)
             .addHeader("Conetent-Type", "application/json")
@@ -117,8 +117,8 @@ public class SmsMultiSender extends SmsBase {
             .put("params", params)
             .put("sig", SmsSenderUtil.calculateSignature(appkey, random, now, phoneNumbers))
             .put("time", now)
-            .put("extend", Boolean.valueOf(extend) ? extend : "")
-            .put("ext", Boolean.valueOf(ext) ? ext : "");
+            .put("extend", SmsSenderUtil.isNotEmpty(extend) ? extend : "")
+            .put("ext", SmsSenderUtil.isNotEmpty(ext) ? ext : "");
 
         HTTPRequest req = new HTTPRequest(HTTPMethod.POST, this.url)
             .addHeader("Conetent-Type", "application/json")

@@ -15,6 +15,8 @@
 - 指定模板群发短信
 - 拉取短信回执和短信回复状态
 
+> `Note` 短信拉取功能需要联系腾讯云短信技术支持(QQ:3012203387)开通权限，量大客户可以使用此功能批量拉取，其他客户不建议使用。
+
 ### 海外短信
 
 海外短信支持操作：
@@ -295,6 +297,7 @@ import org.json.JSONException;
 import java.io.IOException;
 
 try {
+    // Note: 短信拉取功能需要联系腾讯云短信技术支持(QQ:3012203387)开通权限
     SmsStatusPuller spuller = new SmsStatusPuller(appid, appkey);
     // 拉取短信回执
     SmsStatusPullCallbackResult callbackResult = spuller.pullCallback(10);
@@ -315,7 +318,7 @@ try {
 }
 ```
 
-> `Note` 短信拉取功能需要联系腾讯云短信技术支持(QQ:3012203387)，量大客户可以使用此功能批量拉取，其他客户不建议使用。
+> `Note` 短信拉取功能需要联系腾讯云短信技术支持(QQ:3012203387)开通权限，量大客户可以使用此功能批量拉取，其他客户不建议使用。
 
 - **拉取单个手机短信状态**
 
