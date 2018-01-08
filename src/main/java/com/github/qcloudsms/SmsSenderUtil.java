@@ -9,6 +9,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class SmsSenderUtil {
 
+    public static boolean isNotEmpty(String s) {
+        if (s == null || s.isEmpty())
+            return false;
+        return true;
+    }
+
     public static long getCurrentTime() {
         return System.currentTimeMillis() / 1000;
     }

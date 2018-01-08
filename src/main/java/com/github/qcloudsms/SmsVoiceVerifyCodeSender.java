@@ -51,7 +51,7 @@ public class SmsVoiceVerifyCodeSender extends SmsBase {
             .put("playtimes", playtimes)
             .put("sig", SmsSenderUtil.calculateSignature(this.appkey, random, now, phoneNumber))
             .put("time", now)
-            .put("ext", Boolean.valueOf(ext) ? ext : "");
+            .put("ext", SmsSenderUtil.isNotEmpty(ext) ? ext : "");
 
         HTTPRequest req = new HTTPRequest(HTTPMethod.POST, this.url)
             .addHeader("Conetent-Type", "application/json")
