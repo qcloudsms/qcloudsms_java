@@ -66,7 +66,7 @@ qcloudsms_java可以采用多种方式进行安装，我们提供以下三种方
 <dependency>
   <groupId>com.github.qcloudsms</groupId>
   <artifactId>qcloudsms</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 
