@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SmsStatusPullReplyResult extends SmsResultBase {
@@ -40,7 +41,7 @@ public class SmsStatusPullReplyResult extends SmsResultBase {
     public int result;
     public String errMsg;
     public int count;
-    public ArrayList<Reply> replys;
+    public List<Reply> replys;
 
     public SmsStatusPullReplyResult() {
         this.errMsg = "";

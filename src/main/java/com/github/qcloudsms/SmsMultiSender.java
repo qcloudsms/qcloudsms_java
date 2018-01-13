@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class SmsMultiSender extends SmsBase {
@@ -44,7 +45,7 @@ public class SmsMultiSender extends SmsBase {
      * @throws JSONException  json parse exception
      * @throws IOException    network problem
      */
-    public SmsMultiSenderResult send(int type, String nationCode, ArrayList<String> phoneNumbers,
+    public SmsMultiSenderResult send(int type, String nationCode, List<String> phoneNumbers,
         String msg, String extend, String ext)
             throws HTTPException, JSONException, IOException {
 
@@ -104,7 +105,7 @@ public class SmsMultiSender extends SmsBase {
      * @throws JSONException  json parse exception
      * @throws IOException    network problem
      */
-    public SmsMultiSenderResult sendWithParam(String nationCode, ArrayList<String> phoneNumbers,
+    public SmsMultiSenderResult sendWithParam(String nationCode, List<String> phoneNumbers,
         int templateId, ArrayList<String> params, String sign, String extend, String ext)
             throws HTTPException, JSONException, IOException {
 
@@ -151,7 +152,7 @@ public class SmsMultiSender extends SmsBase {
                              sign, extend, ext);
     }
 
-    private ArrayList<JSONObject> toTel(String nationCode, ArrayList<String> phoneNumbers) {
+    private ArrayList<JSONObject> toTel(String nationCode, List<String> phoneNumbers) {
         ArrayList<JSONObject> phones = new ArrayList<JSONObject>();
         for (String phoneNumber: phoneNumbers) {
             JSONObject phone = new JSONObject();

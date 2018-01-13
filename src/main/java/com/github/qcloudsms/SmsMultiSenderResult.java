@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SmsMultiSenderResult extends SmsResultBase {
@@ -44,7 +45,7 @@ public class SmsMultiSenderResult extends SmsResultBase {
     public int result;
     public String errMsg;
     public String ext;
-    public ArrayList<Detail> details;
+    public List<Detail> details;
 
     public SmsMultiSenderResult() {
         this.errMsg = "";

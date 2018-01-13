@@ -1,6 +1,7 @@
 package com.github.qcloudsms;
 
 import java.lang.StringBuffer;
+import java.util.List;
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -61,7 +62,7 @@ public class SmsSenderUtil {
     }
 
     public static String calculateSignature(String appkey, long random, long time,
-            ArrayList<String> phoneNumbers) {
+            List<String> phoneNumbers) {
         return calculateSignature(appkey, random, time, phoneNumbers.toArray(new String[0]));
     }
 
