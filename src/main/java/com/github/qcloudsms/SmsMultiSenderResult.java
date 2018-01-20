@@ -18,7 +18,7 @@ public class SmsMultiSenderResult extends SmsResultBase {
         public String mobile = "";
         public String nationcode = "";
         public String sid = "";
-        public int fee;
+        public int fee = 0;
 
         public String toString() {
             String[] fields = {"result", "errmsg", "mobile", "nationcode", "sid", "fee"};
@@ -30,10 +30,16 @@ public class SmsMultiSenderResult extends SmsResultBase {
             result = json.getInt("result");
             errmsg = json.getString("errmsg");
 
-            if (result == 0) {
+            if (json.has("mobile")) {
                 mobile = json.getString("mobile");
+            }
+            if (json.has("nationcode")) {
                 nationcode = json.getString("nationcode");
+            }
+            if (json.has("sid")) {
                 sid = json.getString("sid");
+            }
+            if (json.has("fee")) {
                 fee = json.getInt("fee");
             }
 
@@ -57,18 +63,20 @@ public class SmsMultiSenderResult extends SmsResultBase {
             throws JSONException {
 
         JSONObject json = parseToJson(response);
+
         result = json.getInt("result");
         errMsg = json.getString("errmsg");
 
-        if (result == 0) {
+        if (json.has("ext")) {
             ext = json.getString("ext");
-            if (!json.isNull("detail")) {
-                JSONArray jsonDetail = json.getJSONArray("detail");
-                for (int i = 0; i < jsonDetail.length(); i++) {
-                    details.add((new Detail()).parse(jsonDetail.getJSONObject(i)));
-                }
+        }
+        if (json.has("detail") && !json.isNull("detail")) {
+            JSONArray jsonDetail = json.getJSONArray("detail");
+            for (int i = 0; i < jsonDetail.length(); i++) {
+                details.add((new Detail()).parse(jsonDetail.getJSONObject(i)));
             }
         }
+
 
         return this;
     }
