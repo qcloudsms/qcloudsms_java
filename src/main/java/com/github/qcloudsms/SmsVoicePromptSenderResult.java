@@ -28,8 +28,10 @@ public class SmsVoicePromptSenderResult extends SmsResultBase {
         result = json.getInt("result");
         errMsg = json.getString("errmsg");
 
-        if (result == 0) {
+        if (json.has("ext")) {
             ext = json.getString("ext");
+        }
+        if (json.has("callid")) {
             callid = json.getString("callid");
         }
 

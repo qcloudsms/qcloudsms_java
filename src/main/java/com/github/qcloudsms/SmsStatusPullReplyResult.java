@@ -56,14 +56,14 @@ public class SmsStatusPullReplyResult extends SmsResultBase {
 
         result = json.getInt("result");
         errMsg = json.getString("errmsg");
-
-        if (result == 0) {
+        if (json.has("count")) {
             count = json.getInt("count");
-            if (!json.isNull("data")) {
-                JSONArray data = json.getJSONArray("data");
-                for (int i = 0; i < data.length(); i++) {
-                    replys.add((new Reply()).parse(data.getJSONObject(i)));
-                }
+        }
+
+        if (json.has("data") && !json.isNull("data")) {
+            JSONArray data = json.getJSONArray("data");
+            for (int i = 0; i < data.length(); i++) {
+                replys.add((new Reply()).parse(data.getJSONObject(i)));
             }
         }
 

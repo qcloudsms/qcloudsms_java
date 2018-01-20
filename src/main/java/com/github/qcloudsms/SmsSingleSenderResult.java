@@ -29,10 +29,10 @@ public class SmsSingleSenderResult extends SmsResultBase {
 
         result = json.getInt("result");
         errMsg = json.getString("errmsg");
-
-        if (result == 0) {
-            ext = json.getString("ext");
+        if (json.has("sid")) {
             sid = json.getString("sid");
+        }
+        if (json.has("fee")) {
             fee = json.getInt("fee");
         }
 
