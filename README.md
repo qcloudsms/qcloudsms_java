@@ -90,13 +90,13 @@ libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.2"
 
 ### 用法
 
-> 若您对接口存在疑问，可以查阅 [开发指南](https://cloud.tencent.com/document/product/382/13297) 和 [API文档](https://qcloudsms.github.io/qcloudsms_java/)。
+若您对接口存在疑问，可以查阅 [开发指南](https://cloud.tencent.com/document/product/382/13297) 、[API文档](https://qcloudsms.github.io/qcloudsms_java/) 和 [错误码](https://cloud.tencent.com/document/product/382/3771)。
 
 - **准备必要参数**
 
 ```java
 // 短信应用SDK AppID
-int appid = 122333333;
+int appid = 1400009099; // 1400开头
 
 // 短信应用SDK AppKey
 String appkey = "9ff91d87c2cd7cd0ea762f141975d1df37481d48700d70ac37470aefc60f9bad";
@@ -106,6 +106,9 @@ String[] phoneNumbers = {"21212313123", "12345678902", "12345678903"};
 
 // 短信模板ID，需要在短信应用中申请
 int templateId = 7839; // NOTE: 这里的模板ID`7839`只是一个示例，真实的模板ID需要在短信控制台中申请
+
+// 签名
+String smsSign = "腾讯云"; // NOTE: 这里的签名"腾讯云"只是一个示例，真实的签名需要在短信控制台中申请，另外签名参数使用的是`签名内容`，而不是`签名ID`
 ```
 
 - **单发短信**
@@ -121,7 +124,7 @@ import java.io.IOException;
 try {
     SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
     SmsSingleSenderResult result = ssender.send(0, "86", phoneNumbers[0],
-        "【腾讯】您的验证码是: 5678", "", "");
+        "【腾讯云】您的验证码是: 5678", "", "");
     System.out.print(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
@@ -153,7 +156,7 @@ try {
     String[] params = {"5678"};
     SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
     SmsSingleSenderResult result = sendWithParam("86", phoneNumbers[0],
-        templateId, params, "", "", "");
+        templateId, params, smsSign, "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
     System.out.print(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
@@ -167,7 +170,7 @@ try {
 }
 ```
 
-> `Note` 无论单发短信还是指定模板ID单发短信都需要从控制台中申请模板并且模板已经审核通过，才可能下发成功，否则返回失败。
+> `Note` 无论单发/群发短信还是指定模板ID单发/群发短信都需要从控制台中申请模板并且模板已经审核通过，才可能下发成功，否则返回失败。
 
 - **群发**
 
@@ -182,7 +185,7 @@ import java.io.IOException;
 try {
     SmsMultiSender msender = new SmsMultiSender(appid, appkey);
     SmsMultiSenderResult result =  msender.send(0, "86", phoneNumbers,
-        "【腾讯】您的验证码是: 5678", "", "");
+        "【腾讯云】您的验证码是: 5678", "", "");
     System.out.print(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
@@ -212,7 +215,7 @@ try {
     String[] params = {"5678"};
     SmsMultiSender msender = new SmsMultiSender(appid, appkey);
     SmsMultiSenderResult result =  msender.sendWithParam("86", phoneNumbers,
-        templateId, params, "", "", "");
+        templateId, params, smsSign, "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
     System.out.print(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
@@ -256,7 +259,7 @@ try {
 }
 ```
 
-> `Note` 语音验证码发送只需提供验证码数字，例如在msg=“5678”，您收到的语音通知为“您的语音验证码是5678”，如需自定义内容，可以使用语音通知。
+> `Note` 语音验证码发送只需提供验证码数字，例如当msg=“5678”时，您收到的语音通知为“您的语音验证码是5678”，如需自定义内容，可以使用语音通知。
 
 - **发送语音通知**
 
@@ -298,13 +301,15 @@ import java.io.IOException;
 
 try {
     // Note: 短信拉取功能需要联系腾讯云短信技术支持(QQ:3012203387)开通权限
+    int maxNum = 10;  // 单次拉取最大量
     SmsStatusPuller spuller = new SmsStatusPuller(appid, appkey);
+
     // 拉取短信回执
-    SmsStatusPullCallbackResult callbackResult = spuller.pullCallback(10);
+    SmsStatusPullCallbackResult callbackResult = spuller.pullCallback(maxNum);
     System.out.println(callbackResult);
 
     // 拉取回复
-    SmsStatusPullReplyResult replyResult = spuller.pullReply(10);
+    SmsStatusPullReplyResult replyResult = spuller.pullReply(naxNum);
     System.out.println(replyResult);
 } catch (HTTPException e) {
     // HTTP响应码错误
@@ -332,13 +337,19 @@ import org.json.JSONException;
 import java.io.IOException;
 
 try {
+    int beginTime = 1511125600;  // 开始时间(unix timestamp)
+    int endTime = 1511841600;    // 结束时间(unix timestamp)
+    int maxNum = 10;             // 单次拉取最大量
     SmsMobileStatusPuller mspuller = new SmsMobileStatusPuller(appid, appkey);
+
     // 拉取短信回执
-    SmsStatusPullCallbackResult callbackResult = mspuller.pullCallback(10);
+    SmsStatusPullCallbackResult callbackResult = mspuller.pullCallback("86",
+        phoneNumbers[0], beginTime, endTime, maxNum);
     System.out.println(callbackResult);
 
     // 拉取回复
-    SmsStatusPullReplyResult replyResult = mspuller.pullReply(10);
+    SmsStatusPullReplyResult replyResult = mspuller.pullReply("86",
+        phoneNumbers[0], beginTime, endTime, maxNum);
     System.out.println(replyResult);
 } catch (HTTPException e) {
     // HTTP响应码错误
@@ -354,7 +365,7 @@ try {
 
 - **发送国际短信**
 
-国际短信发送可以参考单发短信。
+海外短信与国内短信发送类似, 发送海外短信只需替换相应国家码。
 
 #### 使用连接池
 
