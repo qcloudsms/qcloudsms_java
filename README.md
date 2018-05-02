@@ -155,7 +155,7 @@ import java.io.IOException;
 try {
     String[] params = {"5678"};
     SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
-    SmsSingleSenderResult result = sendWithParam("86", phoneNumbers[0],
+    SmsSingleSenderResult result = ssender.sendWithParam("86", phoneNumbers[0],
         templateId, params, smsSign, "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
     System.out.print(result);
 } catch (HTTPException e) {
