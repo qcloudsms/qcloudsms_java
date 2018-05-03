@@ -274,7 +274,7 @@ import java.io.IOException;
 try {
     SmsVoicePromptSender vpsender = new SmsVoicePromptSender(appid, appkey);
     SmsVoicePromptSenderResult result = vpsender.send("86", phoneNumbers[0],
-        2, 2, "5678", ""));
+        2, 2, "5678", "");
     System.out.print(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
