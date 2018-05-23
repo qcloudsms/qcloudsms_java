@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.qcloudsms</groupId>
   <artifactId>qcloudsms</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <name>qcloud sms java sdk</name>
   <url>https://github.com/qcloudsms/qcloudsms_java/</url>
   <description>this Repository is responsible for qlcoud sms sdk</description>

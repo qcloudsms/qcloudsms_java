@@ -66,14 +66,14 @@ qcloudsms_java可以采用多种方式进行安装，我们提供以下三种方
 <dependency>
   <groupId>com.github.qcloudsms</groupId>
   <artifactId>qcloudsms</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
 </dependency>
 ```
 
 #### sbt
 
 ```
-libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.2"
+libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.3"
 ```
 
 #### 其他
@@ -84,7 +84,7 @@ libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.2"
 
 - 方法2
 
-将[JAR包](https://github.com/qcloudsms/qcloudsms_java/tree/master/releases/qcloudsms-1.0.2.jar)直接引入到您的工程中。
+将[JAR包](https://github.com/qcloudsms/qcloudsms_java/tree/master/releases/qcloudsms-1.0.3.jar)直接引入到您的工程中。
 
 > `Note` 由于qcloudsms_java依赖四个依赖项目library： [org.json](http://central.maven.org/maven2/org/json/json/20170516/json-20170516.jar) , [httpclient](http://central.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar), [httpcore](http://central.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.7/httpcore-4.4.7.jar)和 [httpmine](http://central.maven.org/maven2/org/apache/httpcomponents/httpmime/4.5.3/httpmime-4.5.3.jar) 采用方法1需要将以上四个jar包导入工程。
 
@@ -366,6 +366,41 @@ try {
 - **发送国际短信**
 
 海外短信与国内短信发送类似, 发送海外短信只需替换相应国家码。
+
+
+#### 使用代理
+
+有的环境需要使用代理才能上网，可使用ProxyHTTPClient来发送请求, 示例如下:
+
+```java
+import com.github.qcloudsms.SmsSingleSender;
+import com.github.qcloudsms.SmsSingleSenderResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import com.github.qcloudsms.httpclient.ProxyHTTPClient;
+import org.json.JSONException;
+
+import java.io.IOException;
+
+try {
+   // 创建一个代理httpclient
+    ProxyHTTPClient httpclient = new ProxyHTTPClient("127.0.0.1", 8080, "http");
+
+    String[] params = {"5678"};
+    SmsSingleSender ssender = new SmsSingleSender(appid, appkey, httpclient);
+    SmsSingleSenderResult result = ssender.sendWithParam("86", phoneNumbers[0],
+        templateId, params, smsSign, "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
+    System.out.print(result);
+} catch (HTTPException e) {
+    // HTTP响应码错误
+    e.printStackTrace();
+} catch (JSONException e) {
+    // json解析错误
+    e.printStackTrace();
+} catch (IOException e) {
+    // 网络IO错误
+    e.printStackTrace();
+}
+```
 
 #### 使用连接池
 
