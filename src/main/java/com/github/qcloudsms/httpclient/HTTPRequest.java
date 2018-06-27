@@ -1,6 +1,8 @@
 package com.github.qcloudsms.httpclient;
 
 import java.util.HashMap;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 
 public class HTTPRequest {
@@ -12,6 +14,7 @@ public class HTTPRequest {
     public HashMap<String, String> parameters;
     public int connectTimeout;
     public int requestTimeout;
+    public Charset bodyCharset;
 
     public HTTPRequest(final HTTPMethod method, final String url) {
         super();
@@ -20,10 +23,16 @@ public class HTTPRequest {
 
         this.headers = new HashMap<String, String>();
         this.parameters = new HashMap<String, String>();
+        this.bodyCharset = StandardCharsets.UTF_8;
     }
 
     public HTTPRequest setBody(String body) {
         this.body = body;
+        return this;
+    }
+
+    public HTTPRequest setBodyCharset(Charset charset) {
+        this.bodyCharset = charset;
         return this;
     }
 
