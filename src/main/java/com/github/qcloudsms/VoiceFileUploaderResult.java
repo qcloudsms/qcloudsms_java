@@ -10,12 +10,10 @@ public class VoiceFileUploaderResult extends SmsResultBase {
 
     public int result;
     public String errMsg;
-    public String ext;
     public String fid;
 
     public VoiceFileUploaderResult() {
         this.errMsg = "";
-        this.ext = "";
         this.fid = "";
     }
 
@@ -28,9 +26,6 @@ public class VoiceFileUploaderResult extends SmsResultBase {
         result = json.getInt("result");
         errMsg = json.getString("errmsg");
 
-        if (json.has("ext")) {
-            ext = json.getString("ext");
-        }
         if (json.has("fid")) {
             fid = json.getString("fid");
         }
