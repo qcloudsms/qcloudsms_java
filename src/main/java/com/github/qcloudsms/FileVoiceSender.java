@@ -32,8 +32,8 @@ public class FileVoiceSender extends SmsBase {
      *
      * @param nationCode  国家码，如 86 为中国
      * @param phoneNumber  不带国家码的手机号
-     * @param playtimes  播放次数
      * @param fid  语音文件fid
+     * @param playtimes  播放次数
      * @param ext  扩展字段，原样返回
      * @return {@link}FileVoiceSenderResult
      * @throws HTTPException  http status exception
@@ -41,7 +41,7 @@ public class FileVoiceSender extends SmsBase {
      * @throws IOException    network problem
      */
     public FileVoiceSenderResult send(String nationCode, String phoneNumber,
-        int playtimes, String fid, String ext)
+        String fid, int playtimes, String ext)
             throws HTTPException, JSONException, IOException {
 
         long random = SmsSenderUtil.getRandom();

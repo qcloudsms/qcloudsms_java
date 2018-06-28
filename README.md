@@ -385,6 +385,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 try {
+    // Note: 语音文件大小上传限制400K字节
     String filePath = "path/to/example.mp3";
     byte[] content = Files.readAllBytes(Paths.get(filePath));
     VoiceFileUploader uploader = new VoiceFileUploader(appid, appkey);
@@ -420,8 +421,8 @@ try {
     // Note: 这里fid来自`上传语音文件`接口返回的响应，要按语音
     //       文件fid发送语音通知，需要先上传语音文件获取fid
     String fid = "c799d10a43ec109f02f2288ca3c85b79e7700c98.mp3";
-    FileVoiceSender sender = new FileVoiceSender(appid, appkey);
-    FileVoiceSenderResult result = sender.send("86", phoneNumbers[0], 2, fid, "");
+    FileVoiceSender fvsender = new FileVoiceSender(appid, appkey);
+    FileVoiceSenderResult result = fvsender.send("86", phoneNumbers[0], fid, 2, "");
     System.out.print(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
@@ -451,8 +452,8 @@ import java.io.IOException;
 try {
     int templateId = 45221;
     String[] params = {"5678"};
-    TtsVoiceSender sender = new TtsVoiceSender(appid, appkey);
-    TtsVoiceSenderResult result = sender.send("86", phoneNumbers[0],
+    TtsVoiceSender tvsender = new TtsVoiceSender(appid, appkey);
+    TtsVoiceSenderResult result = tvsender.send("86", phoneNumbers[0],
         templateId, params, 2, "");
     System.out.print(result);
 } catch (HTTPException e) {
