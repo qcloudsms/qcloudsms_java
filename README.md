@@ -35,6 +35,9 @@
 
 - 发送语音验证码
 - 发送语音通知
+- 上传语音文件
+- 按语音文件fid发送语音通知
+- 指定模板发送语音通知类
 
 ## 开发
 
@@ -66,14 +69,14 @@ qcloudsms_java可以采用多种方式进行安装，我们提供以下三种方
 <dependency>
   <groupId>com.github.qcloudsms</groupId>
   <artifactId>qcloudsms</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
 </dependency>
 ```
 
 #### sbt
 
 ```
-libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.3"
+libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.4"
 ```
 
 #### 其他
@@ -82,11 +85,12 @@ libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.3"
 
 将[源代码](https://github.com/qcloudsms/qcloudsms_java/tree/master/src)直接引入到项目工程中。
 
+> `Note` 由于qcloudsms_java依赖四个依赖项目library： [org.json](http://central.maven.org/maven2/org/json/json/20170516/json-20170516.jar) , [httpclient](http://central.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar), [httpcore](http://central.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.7/httpcore-4.4.7.jar)和 [httpmine](http://central.maven.org/maven2/org/apache/httpcomponents/httpmime/4.5.3/httpmime-4.5.3.jar) 采用方法1需要将以上四个jar包导入工程。
+
 - 方法2
 
-将[JAR包](https://github.com/qcloudsms/qcloudsms_java/tree/master/releases/qcloudsms-1.0.3.jar)直接引入到您的工程中。
+将[JAR包](https://github.com/qcloudsms/qcloudsms_java/tree/master/releases/qcloudsms-1.0.4.jar)直接引入到您的工程中。
 
-> `Note` 由于qcloudsms_java依赖四个依赖项目library： [org.json](http://central.maven.org/maven2/org/json/json/20170516/json-20170516.jar) , [httpclient](http://central.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.3/httpclient-4.5.3.jar), [httpcore](http://central.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.7/httpcore-4.4.7.jar)和 [httpmine](http://central.maven.org/maven2/org/apache/httpcomponents/httpmime/4.5.3/httpmime-4.5.3.jar) 采用方法1需要将以上四个jar包导入工程。
 
 ### 用法
 
@@ -367,6 +371,102 @@ try {
 
 海外短信与国内短信发送类似, 发送海外短信只需替换相应国家码。
 
+
+- **上传语音文件**
+
+```java
+import com.github.qcloudsms.VoiceFileUploader;
+import com.github.qcloudsms.VoiceFileUploaderResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+try {
+    // Note: 语音文件大小上传限制400K字节
+    String filePath = "path/to/example.mp3";
+    byte[] content = Files.readAllBytes(Paths.get(filePath));
+    VoiceFileUploader uploader = new VoiceFileUploader(appid, appkey);
+    VoiceFileUploaderResult result = uploader.upload(content, VoiceFileUploader.ContentType.MP3);
+    // 上传成功后，result里会带有语音文件的fid
+    System.out.print(result);
+} catch (HTTPException e) {
+    // HTTP响应码错误
+    e.printStackTrace();
+} catch (JSONException e) {
+    // json解析错误
+    e.printStackTrace();
+} catch (IOException e) {
+    // 网络IO错误
+    e.printStackTrace();
+}
+```
+
+> `Note` '语音文件上传'功能需要联系腾讯云短信技术支持(QQ:3012203387)才能开通
+
+
+- **按语音文件fid发送语音通知**
+
+```java
+import com.github.qcloudsms.FileVoiceSender;
+import com.github.qcloudsms.FileVoiceSenderResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import org.json.JSONException;
+
+import java.io.IOException;
+
+try {
+    // Note: 这里fid来自`上传语音文件`接口返回的响应，要按语音
+    //       文件fid发送语音通知，需要先上传语音文件获取fid
+    String fid = "c799d10a43ec109f02f2288ca3c85b79e7700c98.mp3";
+    FileVoiceSender fvsender = new FileVoiceSender(appid, appkey);
+    FileVoiceSenderResult result = fvsender.send("86", phoneNumbers[0], fid, 2, "");
+    System.out.print(result);
+} catch (HTTPException e) {
+    // HTTP响应码错误
+    e.printStackTrace();
+} catch (JSONException e) {
+    // json解析错误
+    e.printStackTrace();
+} catch (IOException e) {
+    // 网络IO错误
+    e.printStackTrace();
+}
+```
+
+> `Note` 按'语音文件fid发送语音通知'功能需要联系腾讯云短信技术支持(QQ:3012203387)才能开通
+
+
+- **指定模板发送语音通知**
+
+```java
+import com.github.qcloudsms.TtsVoiceSender;
+import com.github.qcloudsms.TtsVoiceSenderResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import org.json.JSONException;
+
+import java.io.IOException;
+
+try {
+    int templateId = 45221;
+    String[] params = {"5678"};
+    TtsVoiceSender tvsender = new TtsVoiceSender(appid, appkey);
+    TtsVoiceSenderResult result = tvsender.send("86", phoneNumbers[0],
+        templateId, params, 2, "");
+    System.out.print(result);
+} catch (HTTPException e) {
+    // HTTP响应码错误
+    e.printStackTrace();
+} catch (JSONException e) {
+    // json解析错误
+    e.printStackTrace();
+} catch (IOException e) {
+    // 网络IO错误
+    e.printStackTrace();
+}
+```
 
 #### 使用代理
 

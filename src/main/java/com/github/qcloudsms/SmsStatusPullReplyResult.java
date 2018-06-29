@@ -18,10 +18,11 @@ public class SmsStatusPullReplyResult extends SmsResultBase {
         public String text;
         public String sign;
         public long time;
+        public String extend;
 
         @Override
         public String toString(){
-            String[] fields = {"nationcode", "mobile", "text", "sign", "time"};
+            String[] fields = {"nationcode", "mobile", "text", "sign", "time", "extend"};
             return (new JSONObject(this, fields)).toString();
         }
 
@@ -32,6 +33,7 @@ public class SmsStatusPullReplyResult extends SmsResultBase {
             text = json.getString("text");
             sign = json.getString("sign");
             time = json.getLong("time");
+            extend = json.getString("extend");
 
             return this;
         }

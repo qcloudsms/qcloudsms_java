@@ -77,6 +77,27 @@ public class SmsSenderUtil {
         return sha256(buffer.toString());
     }
 
+    public static String calculateAuth(String appkey, long random, long time, String fileSha1Sum) {
+        StringBuffer buffer = new StringBuffer("appkey=")
+            .append(appkey)
+            .append("&random=")
+            .append(random)
+            .append("&time=")
+            .append(time)
+            .append("&content-sha1=")
+            .append(fileSha1Sum);
+
+        return sha256(buffer.toString());
+    }
+
+    public static String sha1sum(String rawString) {
+        return DigestUtils.sha1Hex(rawString);
+    }
+
+    public static String sha1sum(byte[] bytes) {
+        return DigestUtils.sha1Hex(bytes);
+    }
+
     private static String sha256(String rawString) {
         return DigestUtils.sha256Hex(rawString);
     }

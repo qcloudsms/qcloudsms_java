@@ -2,7 +2,7 @@ package com.github.qcloudsms.httpclient;
 
 import org.apache.http.HttpHost;
 import org.apache.http.Header;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -50,7 +50,7 @@ public class ProxyHTTPClient implements HTTPClient {
 
         RequestBuilder reqBuilder = RequestBuilder.create(request.method.name())
             .setUri(uriBuilder.build())
-            .setEntity(new StringEntity(request.body, "UTF-8"))
+            .setEntity(new ByteArrayEntity(request.body.getBytes(request.bodyCharset)))
             .setConfig(reqConfig);
         for (Map.Entry<String, String> entry: request.headers.entrySet()) {
             reqBuilder.setHeader(entry.getKey(), entry.getValue());
