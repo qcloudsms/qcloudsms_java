@@ -412,6 +412,36 @@ try {
 
 > `Note` '语音文件上传'功能需要联系腾讯云短信技术支持(QQ:3012203387)才能开通
 
+- **查询语音文件审核状态**
+
+```java
+import com.github.qcloudsms.VoiceFileStatus;
+import com.github.qcloudsms.VoiceFileStatusResult;
+import com.github.qcloudsms.httpclient.HTTPException;
+import org.json.JSONException;
+
+try {
+    // Note: 这里fid来自`上传语音文件`接口返回的响应，要按语音
+    //       文件fid发送语音通知，需要先上传语音文件获取fid
+    String fid = "c799d10a43ec109f02f2288ca3c85b79e7700c98.mp3";
+    VoiceFileStatus vfstatus = new VoiceFileStatus(appid, appkey);
+    VoiceFileStatusResult result = vfstatus.get(fid);
+    // result里会带有语音文件审核状态status, {0: 待审核, 1: 通过, 2: 拒绝, 3: 语音文件不存在}
+    System.out.print(result);
+} catch (HTTPException e) {
+    // HTTP响应码错误
+    e.printStackTrace();
+} catch (JSONException e) {
+    // json解析错误
+    e.printStackTrace();
+} catch (IOException e) {
+    // 网络IO错误
+    e.printStackTrace();
+}
+```
+
+> `Note` '查询语音文件审核状态'功能需要联系腾讯云短信技术支持(QQ:3012203387)才能开通
+
 
 - **按语音文件fid发送语音通知**
 
