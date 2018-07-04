@@ -69,14 +69,14 @@ qcloudsms_java可以采用多种方式进行安装，我们提供以下三种方
 <dependency>
   <groupId>com.github.qcloudsms</groupId>
   <artifactId>qcloudsms</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
 </dependency>
 ```
 
 #### sbt
 
 ```
-libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.4"
+libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.5"
 ```
 
 #### 其他
@@ -89,12 +89,18 @@ libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.4"
 
 - 方法2
 
-将[JAR包](https://github.com/qcloudsms/qcloudsms_java/tree/master/releases/qcloudsms-1.0.4.jar)直接引入到您的工程中。
+将[JAR包](https://github.com/qcloudsms/qcloudsms_java/tree/master/releases/qcloudsms-1.0.5.jar)直接引入到您的工程中。
 
 
-### 用法
+### 文档
 
-若您对接口存在疑问，可以查阅 [开发指南](https://cloud.tencent.com/document/product/382/13297) 、[API文档](https://qcloudsms.github.io/qcloudsms_java/) 和 [错误码](https://cloud.tencent.com/document/product/382/3771)。
+若您对接口存在疑问，可以查阅:
+
+* [API开发指南](https://cloud.tencent.com/document/product/382/13297)
+* [SDK文档](https://qcloudsms.github.io/qcloudsms_java/)
+* [错误码](https://cloud.tencent.com/document/product/382/3771)
+
+### 示例
 
 - **准备必要参数**
 

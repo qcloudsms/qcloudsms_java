@@ -13,7 +13,6 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 
 
 public class VoiceFileUploader extends SmsBase {
@@ -33,7 +32,7 @@ public class VoiceFileUploader extends SmsBase {
     }
 
     /**
-     * 发送语音短信
+     * 上传语音文件
      *
      * @param fileContent  语音文件内容
      * @param contentType  语音文件类型
@@ -43,7 +42,7 @@ public class VoiceFileUploader extends SmsBase {
      * @throws IOException    network problem
      */
     public VoiceFileUploaderResult upload(byte[] fileContent, ContentType contentType)
-            throws HTTPException, IOException {
+            throws HTTPException, JSONException, IOException {
 
         long random = SmsSenderUtil.getRandom();
         long now = SmsSenderUtil.getCurrentTime();

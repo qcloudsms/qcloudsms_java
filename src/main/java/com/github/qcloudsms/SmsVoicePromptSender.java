@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class SmsVoicePromptSender extends SmsBase {
 
-    private String url = "https://yun.tim.qq.com/v5/tlsvoicesvr/sendvoiceprompt";
+    private String url = "https://cloud.tim.qq.com/v5/tlsvoicesvr/sendvoiceprompt";
 
     public SmsVoicePromptSender(int appid, String appkey) {
         super(appid, appkey, new DefaultHTTPClient());

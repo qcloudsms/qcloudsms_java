@@ -20,7 +20,7 @@ public class SmsSenderUtil {
     }
 
     public static long getRandom() {
-        return (new Random(SmsSenderUtil.getCurrentTime())).nextLong() % 900000 + 100000;
+        return (new Random(SmsSenderUtil.getCurrentTime())).nextInt(900000) %  + 100000;
     }
 
     public static String calculateSignature(String appkey, long random, long time,
@@ -77,6 +77,21 @@ public class SmsSenderUtil {
         return sha256(buffer.toString());
     }
 
+    public static String calculateFStatusSignature(String appkey, long random,
+            long time, String fid) {
+
+        StringBuffer buffer = new StringBuffer("appkey=")
+            .append(appkey)
+            .append("&random=")
+            .append(random)
+            .append("&time=")
+            .append(time)
+            .append("&fid=")
+            .append(fid);
+
+        return sha256(buffer.toString());
+    }
+
     public static String calculateAuth(String appkey, long random, long time, String fileSha1Sum) {
         StringBuffer buffer = new StringBuffer("appkey=")
             .append(appkey)
@@ -98,7 +113,7 @@ public class SmsSenderUtil {
         return DigestUtils.sha1Hex(bytes);
     }
 
-    private static String sha256(String rawString) {
+    public static String sha256(String rawString) {
         return DigestUtils.sha256Hex(rawString);
     }
 }
