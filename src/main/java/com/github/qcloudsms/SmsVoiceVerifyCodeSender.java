@@ -16,7 +16,7 @@ import java.net.URISyntaxException;
 
 public class SmsVoiceVerifyCodeSender extends SmsBase {
 
-    private String url = "https://yun.tim.qq.com/v5/tlsvoicesvr/sendvoice";
+    private String url = "https://cloud.tim.qq.com/v5/tlsvoicesvr/sendcvoice";
 
     public SmsVoiceVerifyCodeSender(int appid, String appkey) {
         super(appid, appkey, new DefaultHTTPClient());
