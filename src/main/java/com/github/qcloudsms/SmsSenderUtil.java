@@ -20,7 +20,7 @@ public class SmsSenderUtil {
     }
 
     public static long getRandom() {
-        return (new Random(SmsSenderUtil.getCurrentTime())).nextInt(900000) %  + 100000;
+        return (new Random(SmsSenderUtil.getCurrentTime())).nextInt(900000) + 100000;
     }
 
     public static String calculateSignature(String appkey, long random, long time,
