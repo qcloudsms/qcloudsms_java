@@ -135,7 +135,7 @@ try {
     SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
     SmsSingleSenderResult result = ssender.send(0, "86", phoneNumbers[0],
         "【腾讯云】您的验证码是: 5678", "", "");
-    System.out.print(result);
+    System.out.println(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
     e.printStackTrace();
@@ -167,7 +167,7 @@ try {
     SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
     SmsSingleSenderResult result = ssender.sendWithParam("86", phoneNumbers[0],
         templateId, params, smsSign, "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
-    System.out.print(result);
+    System.out.println(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
     e.printStackTrace();
@@ -196,7 +196,7 @@ try {
     SmsMultiSender msender = new SmsMultiSender(appid, appkey);
     SmsMultiSenderResult result =  msender.send(0, "86", phoneNumbers,
         "【腾讯云】您的验证码是: 5678", "", "");
-    System.out.print(result);
+    System.out.println(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
     e.printStackTrace();
@@ -226,7 +226,7 @@ try {
     SmsMultiSender msender = new SmsMultiSender(appid, appkey);
     SmsMultiSenderResult result =  msender.sendWithParam("86", phoneNumbers,
         templateId, params, smsSign, "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
-    System.out.print(result);
+    System.out.println(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
     e.printStackTrace();
@@ -256,7 +256,7 @@ try {
     SmsVoiceVerifyCodeSender vvcsender = new SmsVoiceVerifyCodeSender(appid,appkey);
     SmsVoiceVerifyCodeSenderResult result = vvcsender.send("86", phoneNumbers[0],
         "5678", 2, "");
-    System.out.print(result);
+    System.out.println(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
     e.printStackTrace();
@@ -285,7 +285,7 @@ try {
     SmsVoicePromptSender vpsender = new SmsVoicePromptSender(appid, appkey);
     SmsVoicePromptSenderResult result = vpsender.send("86", phoneNumbers[0],
         2, 2, "5678", "");
-    System.out.print(result);
+    System.out.println(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
     e.printStackTrace();
@@ -397,7 +397,7 @@ try {
     VoiceFileUploader uploader = new VoiceFileUploader(appid, appkey);
     VoiceFileUploaderResult result = uploader.upload(content, VoiceFileUploader.ContentType.MP3);
     // 上传成功后，result里会带有语音文件的fid
-    System.out.print(result);
+    System.out.println(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
     e.printStackTrace();
@@ -427,7 +427,7 @@ try {
     VoiceFileStatus vfstatus = new VoiceFileStatus(appid, appkey);
     VoiceFileStatusResult result = vfstatus.get(fid);
     // result里会带有语音文件审核状态status, {0: 待审核, 1: 通过, 2: 拒绝, 3: 语音文件不存在}
-    System.out.print(result);
+    System.out.println(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
     e.printStackTrace();
@@ -459,7 +459,7 @@ try {
     String fid = "c799d10a43ec109f02f2288ca3c85b79e7700c98.mp3";
     FileVoiceSender fvsender = new FileVoiceSender(appid, appkey);
     FileVoiceSenderResult result = fvsender.send("86", phoneNumbers[0], fid, 2, "");
-    System.out.print(result);
+    System.out.println(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
     e.printStackTrace();
@@ -491,7 +491,7 @@ try {
     TtsVoiceSender tvsender = new TtsVoiceSender(appid, appkey);
     TtsVoiceSenderResult result = tvsender.send("86", phoneNumbers[0],
         templateId, params, 2, "");
-    System.out.print(result);
+    System.out.println(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
     e.printStackTrace();
@@ -525,7 +525,7 @@ try {
     SmsSingleSender ssender = new SmsSingleSender(appid, appkey, httpclient);
     SmsSingleSenderResult result = ssender.sendWithParam("86", phoneNumbers[0],
         templateId, params, smsSign, "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
-    System.out.print(result);
+    System.out.println(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
     e.printStackTrace();
