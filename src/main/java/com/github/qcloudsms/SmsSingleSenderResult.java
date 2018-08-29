@@ -35,6 +35,9 @@ public class SmsSingleSenderResult extends SmsResultBase {
         if (json.has("fee")) {
             fee = json.getInt("fee");
         }
+        if (json.has("ext")) {
+            ext = json.getString("ext");
+        }
 
         return this;
     }
