@@ -28,12 +28,24 @@ public class SmsStatusPullReplyResult extends SmsResultBase {
 
         public Reply parse(JSONObject json) throws JSONException {
 
-            nationcode = json.getString("nationcode");
-            mobile = json.getString("mobile");
-            text = json.getString("text");
-            sign = json.getString("sign");
-            time = json.getLong("time");
-            extend = json.getString("extend");
+            if (json.has("nationcode")) {
+                nationcode = json.getString("nationcode");
+            }
+            if (json.has("mobile")) {
+                mobile = json.getString("mobile");
+            }
+            if (json.has("text")) {
+                text = json.getString("text");
+            }
+            if (json.has("text")) {
+                sign = json.getString("text");
+            }
+            if (json.has("time")) {
+                time = json.getLong("time");
+            }
+            if (json.has("extend")) {
+                extend = json.getString("extend");
+            }
 
             return this;
         }
