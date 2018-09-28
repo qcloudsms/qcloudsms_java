@@ -32,13 +32,27 @@ public class SmsStatusPullCallbackResult extends SmsResultBase {
 
         public Callback parse(JSONObject json) throws JSONException {
 
-            user_receive_time = json.getString("user_receive_time");
-            nationcode = json.getString("nationcode");
-            mobile = json.getString("mobile");
-            report_status = json.getString("report_status");
-            errmsg = json.getString("errmsg");
-            description = json.getString("description");
-            sid = json.getString("sid");
+            if (json.has("user_receive_time")) {
+                user_receive_time = json.getString("user_receive_time");
+            }
+            if (json.has("nationcode")) {
+                nationcode = json.getString("nationcode");
+            }
+            if (json.has("mobile")) {
+                mobile = json.getString("mobile");
+            }
+            if (json.has("report_status")) {
+                report_status = json.getString("report_status");
+            }
+            if (json.has("errmsg")) {
+                errmsg = json.getString("errmsg");
+            }
+            if (json.has("description")) {
+                description = json.getString("description");
+            }
+            if (json.has("sid")) {
+                sid = json.getString("sid");
+            }
 
             return this;
         }
