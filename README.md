@@ -69,14 +69,14 @@ qcloudsms_java可以采用多种方式进行安装，我们提供以下三种方
 <dependency>
   <groupId>com.github.qcloudsms</groupId>
   <artifactId>qcloudsms</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
 </dependency>
 ```
 
 #### sbt
 
 ```
-libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.5"
+libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.6"
 ```
 
 #### 其他
@@ -89,7 +89,7 @@ libraryDependencies += "com.github.qcloudsms" % "sms" % "1.0.5"
 
 - 方法2
 
-将[JAR包](https://github.com/qcloudsms/qcloudsms_java/tree/master/releases/qcloudsms-1.0.5.jar)直接引入到您的工程中。
+将[JAR包](https://github.com/qcloudsms/qcloudsms_java/tree/master/releases/qcloudsms-1.0.6.jar)直接引入到您的工程中。
 
 
 ### 文档
