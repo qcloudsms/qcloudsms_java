@@ -319,7 +319,7 @@ try {
     System.out.println(callbackResult);
 
     // 拉取回复
-    SmsStatusPullReplyResult replyResult = spuller.pullReply(naxNum);
+    SmsStatusPullReplyResult replyResult = spuller.pullReply(maxNum);
     System.out.println(replyResult);
 } catch (HTTPException e) {
     // HTTP响应码错误
