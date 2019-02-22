@@ -55,7 +55,7 @@ public class QcloudSms {
             .addQueryParameter("sdkappid", this.appid)
             .addQueryParameter("random", request.random())
             .setBody(request.body(this.appkey));
-        System.out.println(request.body(this.appkey));
+
         this.client.submit(req, handler);
     }
 

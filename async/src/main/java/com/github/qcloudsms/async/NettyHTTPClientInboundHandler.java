@@ -62,9 +62,6 @@ public class NettyHTTPClientInboundHandler extends SimpleChannelInboundHandler<H
     public void channelRead(ChannelHandlerContext ctx,
         java.lang.Object msg) throws java.lang.Exception {
 
-        // RequestInfo info = ctx.attr(attrKey).get();
-        // info.tracing.setReadBeginTime(System.currentTimeMillis());
-
         super.channelRead(ctx, msg);
     }
 
