@@ -1,26 +1,26 @@
 package com.github.qcloudsms.async;
 
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.util.AttributeKey;
 import io.netty.util.CharsetUtil;
 
-import java.util.Map;
 import java.util.Iterator;
+import java.util.Map;
 
 
-public class NettyHTTPClientInboundHandler extends SimpleChannelInboundHandler<HttpObject> {
+class NettyInboundHandler extends SimpleChannelInboundHandler<HttpObject> {
 
     private AttributeKey<RequestInfo> attrKey;
 
-    public NettyHTTPClientInboundHandler(AttributeKey<RequestInfo> attrKey) {
+    public NettyInboundHandler(AttributeKey<RequestInfo> attrKey) {
         this.attrKey = attrKey;
     }
 
@@ -48,7 +48,11 @@ public class NettyHTTPClientInboundHandler extends SimpleChannelInboundHandler<H
 
             if (content instanceof LastHttpContent) {
                 info.tracing.setEndTime(System.currentTimeMillis());
-                info.handler.onResponse(info.response, info.tracing);
+                try {
+                    info.handler.onResponse(info.response, info.tracing);
+                } catch (Exception e) {
+                    // Do nothing, user should not throw exceptions in handler
+                }
             }
         }
     }
@@ -61,7 +65,6 @@ public class NettyHTTPClientInboundHandler extends SimpleChannelInboundHandler<H
     @Override
     public void channelRead(ChannelHandlerContext ctx,
         java.lang.Object msg) throws java.lang.Exception {
-
         super.channelRead(ctx, msg);
     }
 
@@ -71,7 +74,11 @@ public class NettyHTTPClientInboundHandler extends SimpleChannelInboundHandler<H
 
         RequestInfo info = ctx.attr(attrKey).get();
         info.tracing.setEndTime(System.currentTimeMillis());
-        info.handler.onError(cause, info.tracing);
+        try {
+            info.handler.onError(cause, info.tracing);
+        } catch (Exception e) {
+            // Do nothing, user should not throw exceptions in handler
+        }
 
         if (ctx.channel().isActive()) {
             ctx.channel()

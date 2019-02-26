@@ -6,7 +6,7 @@ import com.github.qcloudsms.httpclient.HTTPTracing;
 import com.github.qcloudsms.httpclient.ResponseHandler;
 
 
-public class RequestInfo {
+class RequestInfo {
 
     public HTTPRequest request;
     public HTTPResponse response;

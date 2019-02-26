@@ -6,11 +6,11 @@ import io.netty.channel.ChannelPromise;
 import io.netty.util.AttributeKey;
 
 
-public class NettyHTTPClientOutboundHandler extends ChannelOutboundHandlerAdapter {
+class NettyOutboundHandler extends ChannelOutboundHandlerAdapter {
 
     private AttributeKey<RequestInfo> attrKey;
 
-    public NettyHTTPClientOutboundHandler(AttributeKey<RequestInfo> attrKey) {
+    public NettyOutboundHandler(AttributeKey<RequestInfo> attrKey) {
         super();
         this.attrKey = attrKey;
     }

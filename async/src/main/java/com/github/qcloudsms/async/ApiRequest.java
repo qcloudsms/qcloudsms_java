@@ -1,6 +1,6 @@
 package com.github.qcloudsms.async;
 
-public interface UserRequest {
+interface ApiRequest {
     public long random();
     public String url();
     public String body(String appkey);

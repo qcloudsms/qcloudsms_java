@@ -47,7 +47,7 @@ public class QcloudSms {
         inited = true;
     }
 
-    public void submit(UserRequest request, ResponseHandler handler) {
+    public void submit(ApiRequest request, ResponseHandler handler) {
         assert inited;
 
         HTTPRequest req = new HTTPRequest(HTTPMethod.POST, request.url())

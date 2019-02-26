@@ -4,18 +4,20 @@ import com.github.qcloudsms.httpclient.AsyncHTTPClient;
 import com.github.qcloudsms.httpclient.HTTPRequest;
 import com.github.qcloudsms.httpclient.ResponseHandler;
 
-import io.netty.buffer.Unpooled;
-import io.netty.buffer.ByteBuf;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.channel.pool.FixedChannelPool;
-import io.netty.channel.pool.ChannelPoolHandler;
 import io.netty.channel.pool.AbstractChannelPoolMap;
+import io.netty.channel.pool.ChannelPoolHandler;
+import io.netty.channel.pool.FixedChannelPool;
+import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.DefaultFullHttpRequest;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpContentDecompressor;
@@ -29,6 +31,7 @@ import io.netty.handler.codec.http.HttpVersion;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.FutureListener;
 
@@ -39,9 +42,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import io.netty.util.AttributeKey;
-import io.netty.channel.ChannelHandlerContext;
-
 
 public class NettyHTTPClient extends AsyncHTTPClient {
 
@@ -51,7 +51,7 @@ public class NettyHTTPClient extends AsyncHTTPClient {
     private EventLoopGroup group;
     private SslContext sslCtx;
     private Bootstrap bootstrap;
-    private AbstractChannelPoolMap<InetSocketAddress, FixedChannelPool> pools;
+    private AbstractChannelPoolMap<Pair<Boolean, InetSocketAddress>, FixedChannelPool> pools;
 
     private final AttributeKey<RequestInfo> attrKey = AttributeKey.valueOf("RequestInfo");
 
@@ -80,29 +80,33 @@ public class NettyHTTPClient extends AsyncHTTPClient {
             .option(ChannelOption.SO_KEEPALIVE, true)
             .option(ChannelOption.TCP_NODELAY, true);
 
-        pools = new AbstractChannelPoolMap<InetSocketAddress, FixedChannelPool>() {
+        pools = new AbstractChannelPoolMap<Pair<Boolean, InetSocketAddress>, FixedChannelPool>() {
             @Override
-            protected FixedChannelPool newPool(InetSocketAddress addr) {
-                return new FixedChannelPool(bootstrap.remoteAddress(addr), new ChannelPoolHandler() {
-                    public void channelCreated(Channel channel) throws Exception {
-                        channel.pipeline()
-                            .addLast(sslCtx.newHandler(channel.alloc()))
-                            .addLast(new HttpClientCodec())
-                            .addLast(new HttpContentDecompressor())
-                            .addLast(new HttpObjectAggregator(1024 * 1024))
-                            .addLast("IN", new NettyHTTPClientInboundHandler(attrKey))
-                            .addLast("OUT", new NettyHTTPClientOutboundHandler(attrKey));
-                    }
+            protected FixedChannelPool newPool(final Pair<Boolean, InetSocketAddress> key) {
+                return new FixedChannelPool(bootstrap.remoteAddress(key.second),
+                    new ChannelPoolHandler() {
+                        public void channelCreated(Channel channel) throws Exception {
+                            ChannelPipeline pipeline = channel.pipeline();
+                            if (key.first == true) {
+                                pipeline.addLast(sslCtx.newHandler(channel.alloc()));
+                            }
+                            pipeline.addLast(new HttpClientCodec())
+                                .addLast(new HttpContentDecompressor())
+                                .addLast(new HttpObjectAggregator(1024 * 1024))
+                                .addLast("IN", new NettyInboundHandler(attrKey))
+                                .addLast("OUT", new NettyOutboundHandler(attrKey));
+                        }
 
-                    public void channelReleased(Channel channel) throws Exception {
-                        // pass
-                    }
+                        public void channelReleased(Channel channel) throws Exception {
+                            // pass
+                        }
 
-                    public void channelAcquired(Channel channel) throws Exception {
-                        // pass
-                    }
+                        public void channelAcquired(Channel channel) throws Exception {
+                            // pass
+                        }
 
-                }, maxConnPoolSize);
+                    },
+                    maxConnPoolSize);
             }
         };
 
@@ -112,9 +116,9 @@ public class NettyHTTPClient extends AsyncHTTPClient {
     public void close() {
         group.shutdownGracefully();
         try {
-            group.awaitTermination(20, TimeUnit.SECONDS);
+            group.awaitTermination(50, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            group.shutdownGracefully(0, 20, TimeUnit.SECONDS);
+            group.shutdownGracefully(0, 50, TimeUnit.SECONDS);
         }
 
         if (!group.isTerminated()) {
@@ -128,20 +132,26 @@ public class NettyHTTPClient extends AsyncHTTPClient {
         assert inited;
 
         final URI uri = URI.create(request.url);
-        String scheme = uri.getScheme() == "http" ? "http" : "https";
+
+        String scheme = "https";
+        boolean useSsl = true;
+        if ("http".equalsIgnoreCase(uri.getScheme())) {
+            scheme = "http";
+            useSsl = false;
+        }
         int port = uri.getPort();
         if (port == -1) {
-            if ("https".equalsIgnoreCase(scheme)) {
+            if ("https".equals(scheme)) {
                 port = 443;
             } else {
                 port = 80;
             }
         }
 
-        InetSocketAddress addr;
-        addr = InetSocketAddress.createUnresolved(uri.getHost(), port);
+        InetSocketAddress addr = InetSocketAddress.createUnresolved(uri.getHost(), port);
+        Pair<Boolean, InetSocketAddress> key = new Pair<Boolean, InetSocketAddress>(useSsl, addr);
 
-        final FixedChannelPool pool = pools.get(addr);
+        final FixedChannelPool pool = pools.get(key);
         final Future<Channel> future = pool.acquire();
         final RequestInfo info = new RequestInfo(request, handler);
 
@@ -150,19 +160,16 @@ public class NettyHTTPClient extends AsyncHTTPClient {
             public void operationComplete(Future<Channel> f) {
                 if (f.isSuccess()) {
                     final Channel channel = future.getNow();
-
-                    // Create request info
                     ChannelHandlerContext ctx = channel.pipeline().context("OUT");
                     ctx.attr(attrKey).set(info);
-
-                    // Write and flush to remote
                     channel.writeAndFlush(toNettyHttpRequest(request, uri));
-
-                    // Relase channel to pool
                     pool.release(channel);
                 } else {
-                    // Call error handler
-                    handler.onError(f.cause(), null);
+                    try {
+                        handler.onError(f.cause(), null);
+                    } catch (Exception e) {
+                        // Do nothing, user should not throw exceptions in handler
+                    }
                 }
             }
         });
@@ -184,7 +191,6 @@ public class NettyHTTPClient extends AsyncHTTPClient {
             }
         }
 
-        // Transfrom to netty http request
         DefaultFullHttpRequest req = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1,
             HttpMethod.valueOf(request.method.name()), path.toString());
 

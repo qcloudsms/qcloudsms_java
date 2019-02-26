@@ -4,7 +4,7 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 
-public class SingleSenderRequest implements UserRequest {
+public class SingleSenderRequest implements ApiRequest {
 
     private String nationcode_;
     private String phone_;
