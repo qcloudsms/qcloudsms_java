@@ -121,37 +121,6 @@ int templateId = 7839; // NOTE: 这里的模板ID`7839`只是一个示例，真�
 String smsSign = "腾讯云"; // NOTE: 这里的签名"腾讯云"只是一个示例，真实的签名需要在短信控制台中申请，另外签名参数使用的是`签名内容`，而不是`签名ID`
 ```
 
-- **单发短信**
-
-```java
-import com.github.qcloudsms.SmsSingleSender;
-import com.github.qcloudsms.SmsSingleSenderResult;
-import com.github.qcloudsms.httpclient.HTTPException;
-import org.json.JSONException;
-
-import java.io.IOException;
-
-try {
-    SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
-    SmsSingleSenderResult result = ssender.send(0, "86", phoneNumbers[0],
-        "【腾讯云】您的验证码是: 5678", "", "");
-    System.out.println(result);
-} catch (HTTPException e) {
-    // HTTP响应码错误
-    e.printStackTrace();
-} catch (JSONException e) {
-    // json解析错误
-    e.printStackTrace();
-} catch (IOException e) {
-    // 网络IO错误
-    e.printStackTrace();
-}
-```
-
-> `Note` 如需发送海外短信，同样可以使用此接口，只需将国家码 `86` 改写成对应国家码号。
-> `Note` 无论单发/群发短信还是指定模板ID单发/群发短信都需要从控制台中申请模板并且模板已经审核通过，才可能下发成功，否则返回失败。
-
-
 - **指定模板ID单发短信**
 
 ```java
@@ -166,36 +135,7 @@ try {
     String[] params = {"5678"};
     SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
     SmsSingleSenderResult result = ssender.sendWithParam("86", phoneNumbers[0],
-        templateId, params, smsSign, "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
-    System.out.println(result);
-} catch (HTTPException e) {
-    // HTTP响应码错误
-    e.printStackTrace();
-} catch (JSONException e) {
-    // json解析错误
-    e.printStackTrace();
-} catch (IOException e) {
-    // 网络IO错误
-    e.printStackTrace();
-}
-```
-
-> `Note` 无论单发/群发短信还是指定模板ID单发/群发短信都需要从控制台中申请模板并且模板已经审核通过，才可能下发成功，否则返回失败。
-
-- **群发**
-
-```java
-import com.github.qcloudsms.SmsMultiSender;
-import com.github.qcloudsms.SmsMultiSenderResult;
-import com.github.qcloudsms.httpclient.HTTPException;
-import org.json.JSONException;
-
-import java.io.IOException;
-
-try {
-    SmsMultiSender msender = new SmsMultiSender(appid, appkey);
-    SmsMultiSenderResult result =  msender.send(0, "86", phoneNumbers,
-        "【腾讯云】您的验证码是: 5678", "", "");
+        templateId, params, smsSign, "", "");  // 签名不能为空串
     System.out.println(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
@@ -225,7 +165,7 @@ try {
     String[] params = {"5678"};
     SmsMultiSender msender = new SmsMultiSender(appid, appkey);
     SmsMultiSenderResult result =  msender.sendWithParam("86", phoneNumbers,
-        templateId, params, smsSign, "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
+        templateId, params, smsSign, "", "");  // 签名不能为空串
     System.out.println(result);
 } catch (HTTPException e) {
     // HTTP响应码错误
